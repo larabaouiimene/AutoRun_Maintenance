@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:autorun/Views/PageAcceuil.dart';
-import 'package:autorun/Views/test.dart';
 import 'package:autorun/assets/MyFlutterApp.dart';
 import 'package:autorun/assets/Password.dart';
 import 'package:flutter/material.dart';

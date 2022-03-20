@@ -1,9 +1,7 @@
-import 'dart:math';
-
 import 'package:autorun/assets/MyIcons.dart';
-import 'package:autorun/main.dart';
+
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 const color = Color(0xFF4361EE);
@@ -29,20 +27,45 @@ class HomePage extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(top: 15),
               height: 50,
-              width: 55,
+              width: 50,
               child: Column(
                 children: [
                   Icon(
                     MyIcons.home,
-                    size: 25,
+                    size: 20,
                   ),
-                  Visibility(
-                    child: Text("Home"),
-                    maintainSize: true,
-                    maintainAnimation: true,
-                    maintainState: true,
-                    visible: false,
-                  ),
+                  Text(
+                    "Home",
+                    style: TextStyle(fontSize: 10),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 15),
+              height: 50,
+              width: 50,
+              child: Column(
+                children: [
+                  Icon(MyIcons.list_check, size: 20),
+                  Text(
+                    "Tâches",
+                    style: TextStyle(fontSize: 10),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 15),
+              height: 50,
+              width: 50,
+              child: Column(
+                children: [
+                  Icon(MyIcons.car, size: 20),
+                  Text(
+                    "Véhicules",
+                    style: TextStyle(fontSize: 10),
+                  )
                 ],
               ),
             ),
@@ -51,28 +74,24 @@ class HomePage extends StatelessWidget {
               height: 50,
               width: 55,
               child: Column(
-                children: [Icon(MyIcons.list_check, size: 25), Text("Tâches")],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 15),
-              height: 50,
-              width: 65,
-              child: Column(
-                children: [Icon(MyIcons.car, size: 25), Text("Véhicules")],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 15),
-              height: 50,
-              width: 55,
-              child: Column(
-                children: [Icon(MyIcons.user, size: 25), Text("Profil")],
+                children: [
+                  Icon(MyIcons.user, size: 20),
+                  Text(
+                    "Profil",
+                    style: TextStyle(fontSize: 10),
+                  )
+                ],
               ),
             )
           ],
           onTap: (index) {
-            //Handle button tap
+            Visibility(
+              child: Text("home"),
+              visible: true,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+            );
           },
         ),
       ),
