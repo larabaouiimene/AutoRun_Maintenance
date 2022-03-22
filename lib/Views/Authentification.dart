@@ -8,6 +8,18 @@ import 'package:flutter/material.dart';
 
 const color = Color(0XFF4361EE);
 
+class EmailFieldValidator {
+  static String? validate(String value) {
+    return value.isEmpty ? 'Email can\'t be empty' : null;
+  }
+}
+
+class PasswordFieldValidator {
+  static String? validate(String value) {
+    return value.isEmpty ? 'Password can\'t be empty' : null;
+  }
+}
+
 // ignore: must_be_immutable
 class Authentification extends StatelessWidget {
   var emailContoller = TextEditingController();
@@ -75,6 +87,12 @@ class Authentification extends StatelessWidget {
                                 height: 20,
                               ),
                               TextFormField(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Password can\'t be Empty';
+                                    }
+                                    return null;
+                                  },
                                   controller: passwordController,
                                   keyboardType: TextInputType.visiblePassword,
                                   obscureText: true,
