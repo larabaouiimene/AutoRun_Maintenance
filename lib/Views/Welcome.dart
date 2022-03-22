@@ -24,7 +24,15 @@ class WelcomePage extends StatelessWidget {
                   children: <Widget>[
                     Row(
                       children: [
-                        Image.asset("assets/imgs/bienvenu.png"),
+                        //  Image.asset("assets/imgs/bienvenu.png"),
+                        Text(
+                          "Bienvenue 👋",
+                          style: TextStyle(
+                              fontSize: 35,
+                              color: color,
+                              fontFamily: 'Nunito',
+                              fontWeight: FontWeight.bold),
+                        )
                       ],
                     ),
                     Row(
@@ -32,7 +40,11 @@ class WelcomePage extends StatelessWidget {
                       children: const [
                         Text(
                           "Pour continuer connectez-vous !",
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.grey,
+                              fontFamily: 'Nunito'),
                         )
                       ],
                     )
@@ -61,11 +73,14 @@ class WelcomePage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Authentification()));
+                            builder: (context) => Authentification()));
                   },
                   child: const Text(
                     "Se connecter",
-                    style: TextStyle(fontSize: 25, color: Colors.white),
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontFamily: 'Nunito'),
                   )),
             ),
           ],

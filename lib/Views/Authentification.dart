@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:http/http.dart' as http;
 import 'package:autorun/Views/PageAcceuil.dart';
 import 'package:autorun/assets/MyFlutterApp.dart';
 import 'package:autorun/assets/Password.dart';
@@ -7,8 +8,10 @@ import 'package:flutter/material.dart';
 
 const color = Color(0XFF4361EE);
 
+// ignore: must_be_immutable
 class Authentification extends StatelessWidget {
-  const Authentification({Key? key}) : super(key: key);
+  var emailContoller = TextEditingController();
+  var passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,15 @@ class Authentification extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Image.asset("assets/imgs/Rebienvenu.png"),
+                              // Image.asset("assets/imgs/Rebienvenu.png"),
+                              Text(
+                                "Re-bienvenue 👋",
+                                style: TextStyle(
+                                    color: color,
+                                    fontSize: 35,
+                                    fontFamily: 'Nunito',
+                                    fontWeight: FontWeight.bold),
+                              )
                             ],
                           ),
                           Row(
@@ -36,7 +47,11 @@ class Authentification extends StatelessWidget {
                             children: [
                               const Text(
                                 "Pour continuer , Enter votre email \n et mot de passe",
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    fontFamily: 'Nunito',
+                                    color: Colors.grey),
                               ),
                             ],
                           ),
@@ -50,6 +65,7 @@ class Authentification extends StatelessWidget {
                                 width: 50,
                               ),
                               TextFormField(
+                                controller: emailContoller,
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: const InputDecoration(
                                     labelText: "Votre email",
@@ -59,6 +75,7 @@ class Authentification extends StatelessWidget {
                                 height: 20,
                               ),
                               TextFormField(
+                                  controller: passwordController,
                                   keyboardType: TextInputType.visiblePassword,
                                   obscureText: true,
                                   decoration: const InputDecoration(
@@ -76,8 +93,11 @@ class Authentification extends StatelessWidget {
                                   TextButton(
                                       onPressed: () {},
                                       child: const Text(
-                                        "Forget Password ?",
-                                        style: TextStyle(color: color),
+                                        "mot de passe oublié ?",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: color,
+                                            fontFamily: 'Nunito'),
                                       ))
                                 ],
                               ),
@@ -96,15 +116,14 @@ class Authentification extends StatelessWidget {
                               color: color),
                           child: MaterialButton(
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HomePage()));
+                                login(context);
                               },
                               child: const Text(
                                 "Se connecter",
                                 style: TextStyle(
-                                    fontSize: 25, color: Colors.white),
+                                    fontFamily: 'Nunito',
+                                    fontSize: 25,
+                                    color: Colors.white),
                               )),
                         ),
                       ]),
@@ -113,5 +132,40 @@ class Authentification extends StatelessWidget {
                 )
               ],
             )));
+  }
+
+  Future<void> login(BuildContext context) async {
+    if (passwordController.text.isNotEmpty && emailContoller.text.isNotEmpty) {
+      var response = await http.post(
+          Uri.parse(
+              'https://s8evs8twoi.execute-api.eu-west-3.amazonaws.com/login/am'),
+          body: ({
+            'email': emailContoller.text,
+            'mdp': passwordController.text
+          }));
+      print('Response status: ${response.statusCode}');
+      if (response.statusCode == 201) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
+      } else {
+        if (response.statusCode == 401) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Details manquants")));
+        } else {
+          if (response.statusCode == 404) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Not Found: compte enexistant")));
+          } else {
+            if (response.statusCode == 500) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text("Erreur Serveur")));
+            }
+          }
+        }
+      }
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("veuillez remplir les champs")));
+    }
   }
 }
