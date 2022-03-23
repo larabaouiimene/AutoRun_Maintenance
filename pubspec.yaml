@@ -108,9 +108,9 @@ flutter:
      - family: Next   
        fonts:  
          - asset: assets/icons/Next.ttf         
-     - family: Menu   
-       fonts:  
-         - asset: assets/icons/Menu.ttf   
+     #- family: Menu   
+     #  fonts:  
+      #   - asset: assets/icons/Menu.ttf   
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
      - family: Nunito

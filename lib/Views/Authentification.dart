@@ -5,7 +5,6 @@ import 'package:autorun/Views/PageAcceuil.dart';
 import 'package:autorun/assets/MyFlutterApp.dart';
 import 'package:autorun/assets/Password.dart';
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 
 const color = Color(0XFF4361EE);
 
@@ -41,7 +40,6 @@ class PasswordFieldValidator {
 class Authentification extends StatelessWidget {
   var emailContoller = TextEditingController();
   var passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

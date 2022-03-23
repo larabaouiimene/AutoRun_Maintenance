@@ -111,7 +111,7 @@ class HomePage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(Menu.groupe_104),
+                          Icon(MyIcons.list_check),
                           Icon(MyIcons.bell),
                         ],
                       ),
