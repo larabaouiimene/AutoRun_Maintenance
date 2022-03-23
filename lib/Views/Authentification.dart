@@ -5,10 +5,11 @@ import 'package:autorun/Views/PageAcceuil.dart';
 import 'package:autorun/assets/MyFlutterApp.dart';
 import 'package:autorun/assets/Password.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 const color = Color(0XFF4361EE);
 
-class EmailFieldValidator {
+/*class EmailFieldValidator {
   static String? validate(String value) {
     return value.isEmpty ? 'Email can\'t be empty' : null;
   }
@@ -18,13 +19,29 @@ class PasswordFieldValidator {
   static String? validate(String value) {
     return value.isEmpty ? 'Password can\'t be empty' : null;
   }
+}*/
+class EmailFieldValidator {
+  static String? validate(String value) {
+    if (value.isEmpty ||
+        !RegExp(r'^[\w-\,]+@([\w-]+\.)[\w-]{2,4}').hasMatch(value))
+      return "Email can't be empty or invalid";
+    return null;
+  }
+}
+
+class PasswordFieldValidator {
+  static String? validate(String value) {
+    if (value.isEmpty || value.length < 6 || value.length > 15)
+      return "Password can't be empty or invalid";
+    return null;
+  }
 }
 
 // ignore: must_be_immutable
 class Authentification extends StatelessWidget {
   var emailContoller = TextEditingController();
   var passwordController = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,6 +94,17 @@ class Authentification extends StatelessWidget {
                                 width: 50,
                               ),
                               TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  if (value == null ||
+                                      value.isEmpty ||
+                                      !RegExp(r'^[\w-\,]+@([\w-]+\.)[\w-]{2,4}')
+                                          .hasMatch(value)) {
+                                    return '* Entrez un email valide';
+                                  }
+                                  return null;
+                                },
                                 controller: emailContoller,
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: const InputDecoration(
@@ -87,12 +115,27 @@ class Authentification extends StatelessWidget {
                                 height: 20,
                               ),
                               TextFormField(
-                                  validator: (value) {
+                                  /*  validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Password can\'t be Empty';
                                     }
                                     return null;
+                                  },*/
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return '* Entrez un numero de téléphone valide';
+                                    }
+                                    if (value.length < 6) {
+                                      return "Doit contenir au moins 6 characteres";
+                                    }
+                                    if (value.length > 15) {
+                                      "Ne doit pas contenir plus de 15 characteres";
+                                    }
+
+                                    return null;
                                   },
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
                                   controller: passwordController,
                                   keyboardType: TextInputType.visiblePassword,
                                   obscureText: true,
@@ -156,12 +199,13 @@ class Authentification extends StatelessWidget {
     if (passwordController.text.isNotEmpty && emailContoller.text.isNotEmpty) {
       var response = await http.post(
           Uri.parse(
-              'https://s8evs8twoi.execute-api.eu-west-3.amazonaws.com/login/am'),
+              'https://wyerkn74ia.execute-api.eu-west-3.amazonaws.com/test/login/am'),
           body: ({
-            'email': emailContoller.text,
-            'mdp': passwordController.text
+            "email": emailContoller.text,
+            "mdp": passwordController.text
           }));
-      print('Response status: ${response.statusCode}');
+
+      print('Response status: ${response.body}');
       if (response.statusCode == 201) {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => HomePage()));

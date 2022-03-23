@@ -1,3 +1,4 @@
+import 'package:autorun/assets/Menu.dart';
 import 'package:autorun/assets/MyIcons.dart';
 import 'package:autorun/assets/Next.dart';
 
@@ -110,7 +111,7 @@ class HomePage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(MyIcons.list_check),
+                          Icon(Menu.groupe_104),
                           Icon(MyIcons.bell),
                         ],
                       ),
