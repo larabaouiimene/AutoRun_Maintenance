@@ -70,10 +70,8 @@ class WelcomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15), color: color),
               child: MaterialButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Authentification()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginForm()));
                   },
                   child: const Text(
                     "Se connecter",

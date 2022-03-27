@@ -6,6 +6,12 @@ import 'package:autorun/assets/MyFlutterApp.dart';
 import 'package:autorun/assets/Password.dart';
 import 'package:flutter/material.dart';
 
+import 'package:form_field_validator/form_field_validator.dart';
+
+import 'dart:convert';
+
+import 'package:validators/validators.dart';
+
 const color = Color(0XFF4361EE);
 
 /*class EmailFieldValidator {
@@ -36,10 +42,17 @@ class PasswordFieldValidator {
   }
 }
 
+class LoginForm extends StatefulWidget {
+  @override
+  Authentification createState() => Authentification();
+}
+
 // ignore: must_be_immutable
-class Authentification extends StatelessWidget {
+class Authentification extends State<LoginForm> {
+  bool ishidenPassword = true;
   var emailContoller = TextEditingController();
   var passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,13 +149,21 @@ class Authentification extends StatelessWidget {
                                       AutovalidateMode.onUserInteraction,
                                   controller: passwordController,
                                   keyboardType: TextInputType.visiblePassword,
-                                  obscureText: true,
-                                  decoration: const InputDecoration(
-                                      labelText: "Votre mot de passe",
-                                      focusColor: color,
-                                      hoverColor: color,
-                                      prefixIcon: Icon(Password.lock),
-                                      suffixIcon: Icon(Icons.remove_red_eye))),
+                                  obscureText: ishidenPassword,
+                                  decoration: InputDecoration(
+                                    labelText: "Votre mot de passe",
+                                    focusColor: color,
+                                    hoverColor: color,
+                                    prefixIcon: Icon(Password.lock),
+                                    suffix: InkWell(
+                                      onTap: _togglePasswordView,
+                                      child: Icon(
+                                        ishidenPassword
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                      ),
+                                    ),
+                                  )),
                               const SizedBox(
                                 height: 5,
                               ),
@@ -197,24 +218,27 @@ class Authentification extends StatelessWidget {
     if (passwordController.text.isNotEmpty && emailContoller.text.isNotEmpty) {
       var response = await http.post(
           Uri.parse(
-              'https://wyerkn74ia.execute-api.eu-west-3.amazonaws.com/test/login/am'),
-          body: ({
-            "email": emailContoller.text,
-            "mdp": passwordController.text
+              'https://wyerkn74ia.execute-api.eu-west-3.amazonaws.com/login/am'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, String>{
+            'email': emailContoller.text,
+            'mdp': passwordController.text
           }));
-
+      print('${emailContoller.text}');
       print('Response status: ${response.body}');
       if (response.statusCode == 201) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+            context, MaterialPageRoute(builder: (context) => PageAccuiel()));
       } else {
         if (response.statusCode == 401) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text("Details manquants")));
         } else {
           if (response.statusCode == 404) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Not Found: compte enexistant")));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("Compte inexistant, vérifiez votre e-mail")));
           } else {
             if (response.statusCode == 500) {
               ScaffoldMessenger.of(context)
@@ -227,5 +251,11 @@ class Authentification extends StatelessWidget {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("veuillez remplir les champs")));
     }
+  }
+
+  void _togglePasswordView() {
+    setState(() {
+      ishidenPassword = !ishidenPassword;
+    });
   }
 }

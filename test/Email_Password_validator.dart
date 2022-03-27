@@ -44,8 +44,7 @@ void main() {
   test('Empty or invalid email returns String error', () {
     var result = EmailFieldValidator.validate('');
     expect(result, null);
-  });
-  */
+  });*/
 
   test('empty password returns error string', () {
     final result = PasswordFieldValidator.validate('');

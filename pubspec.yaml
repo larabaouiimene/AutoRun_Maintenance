@@ -107,7 +107,10 @@ flutter:
          - asset: assets/icons/Eye.ttf
      - family: Next   
        fonts:  
-         - asset: assets/icons/Next.ttf         
+         - asset: assets/icons/Next.ttf
+     - family: SlideBar   
+       fonts:  
+         - asset: assets/icons/SlideBar.ttf             
      #- family: Menu   
      #  fonts:  
       #   - asset: assets/icons/Menu.ttf   
