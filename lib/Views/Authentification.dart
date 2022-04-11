@@ -74,7 +74,7 @@ class Authentification extends State<LoginForm> {
                             children: [
                               // Image.asset("assets/imgs/Rebienvenu.png"),
                               Text(
-                                "Re-bienvenue 👋",
+                                "Connexion",
                                 style: TextStyle(
                                     color: color,
                                     fontSize: 35,
