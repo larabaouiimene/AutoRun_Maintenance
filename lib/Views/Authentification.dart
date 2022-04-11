@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'package:autorun/Views/Home.dart';
+import 'package:autorun/Views/PannePage.dart';
 import 'package:http/http.dart' as http;
 import 'package:autorun/Views/PageAcceuil.dart';
 import 'package:autorun/assets/MyFlutterApp.dart';

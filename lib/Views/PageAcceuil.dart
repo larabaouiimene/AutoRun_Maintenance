@@ -1,4 +1,5 @@
 import 'package:autorun/Views/Home.dart';
+import 'package:autorun/Views/PannePage.dart';
 import 'package:autorun/Views/ProfilPage.dart';
 import 'package:autorun/Views/TachesPage.dart';
 import 'package:autorun/Views/VehiculesPage.dart';
@@ -19,7 +20,7 @@ class PageAccuiel extends StatefulWidget {
 class HomePage extends State<PageAccuiel> {
   @override
   int _selectedIndex = 0;
-  final screens = [Home(), TachesPage(), VehiculesPage(), ProfilPage()];
+  final screens = [Home(), MesTaches(), MesVehicules(), ProfilPage()];
 
   Widget build(BuildContext context) {
     return Scaffold(

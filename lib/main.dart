@@ -1,4 +1,7 @@
 import 'package:autorun/SplashPage.dart';
+import 'package:autorun/Views/MapLocation.dart';
+import 'package:autorun/Views/Vehicule.dart';
+import 'package:autorun/Views/PannePage.dart';
 import 'package:autorun/Views/Welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,8 +12,8 @@ void main() {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(MaterialApp(
-    navigatorKey: myNavigatorKey,
-    debugShowCheckedModeBanner: false,
-    home: SplashPage(duration: 3, goToPage: const WelcomePage()),
-  ));
+      navigatorKey: myNavigatorKey,
+      debugShowCheckedModeBanner: false,
+      home: Map()));
 }
+//https://console.cloud.google.com/google/maps-apis/credentials?hl=fr&project=noted-amphora-346209
