@@ -1,4 +1,5 @@
 import 'package:autorun/assets/PanneIcon.dart';
+import 'package:autorun/assets/Password.dart';
 import 'package:autorun/assets/Unlock.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +72,9 @@ class _MyHomePageState extends State<MyHomePage> {
       child: InkWell(
           onTap: () {
             showModalBottomSheet(
+                shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20))),
                 context: context,
                 builder: (builder) {
                   return Expanded(
@@ -110,7 +114,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                             children: [
                                               Row(
                                                 children: [
-                                                  Text("Audi R8",
+                                                  Text(
+                                                      vehicules[index].marque +
+                                                          " " +
+                                                          vehicules[index]
+                                                              .modele,
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -121,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               ),
                                               Row(
                                                 children: [
-                                                  Text("98%",
+                                                  Text(vehicules[index].charge,
                                                       style: TextStyle(
                                                           fontFamily: 'Nunito',
                                                           fontSize: 15,
@@ -172,8 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     color: Colors.black)),
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                                  MainAxisAlignment.spaceAround,
                                               children: [
                                                 Icon(
                                                   PanneIcon.paper_plane,
@@ -183,7 +190,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 SizedBox(
                                                   width: 5,
                                                 ),
-                                                Text("500 mètres",
+                                                Text(
+                                                    vehicules[index]
+                                                            .distance
+                                                            .toString() +
+                                                        " mètres",
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -206,89 +217,34 @@ class _MyHomePageState extends State<MyHomePage> {
                                             child: Container(
                                               margin: EdgeInsets.all(10),
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
                                                 children: [
                                                   Icon(
                                                     PanneIcon.marker__1_,
                                                     color: color,
                                                   ),
                                                   SizedBox(
-                                                    width: 5,
+                                                    width: 15,
                                                   ),
-                                                  Text(
-                                                      "Av.Colonel Mellah Ali,Algiers 16000",
-                                                      style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontSize: 15,
-                                                          color: Colors.grey))
+                                                  SizedBox(
+                                                    child: Text(
+                                                        vehicules[index]
+                                                            .location,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Nunito',
+                                                            fontSize: 15,
+                                                            color:
+                                                                Colors.grey)),
+                                                  ),
                                                 ],
                                               ),
                                             )),
                                         SizedBox(
                                           height: 30,
                                         ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Text("Statut",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily: 'Nunito',
-                                                        fontSize: 18,
-                                                        color: Colors.black)),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Unlock.unlock,
-                                                  color: color,
-                                                  size: 15,
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text("Déverrouillé",
-                                                    style: TextStyle(
-                                                        fontFamily: 'Nunito',
-                                                        fontSize: 15,
-                                                        color: Colors.black))
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Container(
-                                          alignment: Alignment.bottomCenter,
-                                          height: 50,
-                                          width: 250,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              color: color),
-                                          child: MaterialButton(
-                                              onPressed: () {},
-                                              child: const Text(
-                                                "Déverrouiller",
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: Colors.white,
-                                                    fontFamily: 'Nunito'),
-                                              )),
-                                        ),
+                                        _Verrouille(vehicules[index].etat),
                                       ]),
                                     )))
                           ],
@@ -328,8 +284,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       topLeft: Radius.circular(10.0)),
                                   image: DecorationImage(
                                       image:
-                                          NetworkImage(vehicules[index].image),
-                                      fit: BoxFit.cover))),
+                                          AssetImage('assets/imgs/Audi-R8.png'),
+                                      fit: BoxFit.fitWidth))),
                           SizedBox(width: 8.0),
                           Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -437,5 +393,97 @@ class _MyHomePageState extends State<MyHomePage> {
     super.debugFillProperties(properties);
     properties.add(
         DiagnosticsProperty<GoogleMapController>('_controller', _controller));
+  }
+
+  _Verrouille(etat) {
+    if (etat == "Verrouillé") {
+      return Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("Statut",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Nunito',
+                        fontSize: 18,
+                        color: Colors.black)),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Password.lock,
+                  color: color,
+                  size: 15,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("Verrouillé",
+                    style: TextStyle(
+                        fontFamily: 'Nunito',
+                        fontSize: 15,
+                        color: Colors.black))
+              ],
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Container(
+              height: 50,
+              width: 250,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15), color: color),
+              child: MaterialButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "Déverrouiller",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontFamily: 'Nunito'),
+                  )),
+            )
+          ],
+        ),
+      );
+    } else
+      return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text("Statut",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Nunito',
+                    fontSize: 18,
+                    color: Colors.black)),
+          ],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Row(
+          children: [
+            Icon(
+              Unlock.unlock,
+              color: color,
+              size: 15,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text("Déverrouillé",
+                style: TextStyle(
+                    fontFamily: 'Nunito', fontSize: 15, color: Colors.black))
+          ],
+        )
+      ]);
   }
 }

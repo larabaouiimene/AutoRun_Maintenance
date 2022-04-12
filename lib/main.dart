@@ -4,7 +4,7 @@ import 'package:autorun/Views/ProfilPage.dart';
 import 'package:autorun/Views/Vehicule.dart';
 import 'package:autorun/Views/PannePage.dart';
 import 'package:autorun/Views/Welcome.dart';
-import 'package:autorun/Views/pricipal.dart';
+import 'package:autorun/Views/pricipalMap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
