@@ -134,7 +134,7 @@ class ProfilPage extends StatelessWidget {
                 )),
           ),
           SizedBox(
-            height: 140,
+            height: 70,
           ),
           Container(
             height: 50,

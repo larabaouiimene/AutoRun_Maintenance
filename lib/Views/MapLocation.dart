@@ -19,6 +19,7 @@ class _MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Container(
             margin: EdgeInsets.only(top: 27),
             color: Colors.white,
