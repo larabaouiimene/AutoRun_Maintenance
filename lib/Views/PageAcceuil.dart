@@ -3,6 +3,7 @@ import 'package:autorun/Views/PannePage.dart';
 import 'package:autorun/Views/ProfilPage.dart';
 import 'package:autorun/Views/TachesPage.dart';
 import 'package:autorun/Views/VehiculesPage.dart';
+import 'package:autorun/Views/pricipalMap.dart';
 import 'package:autorun/assets/MyIcons.dart';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -20,7 +21,7 @@ class PageAccuiel extends StatefulWidget {
 class HomePage extends State<PageAccuiel> {
   @override
   int _selectedIndex = 0;
-  final screens = [Home(), MesTaches(), MesVehicules(), ProfilPage()];
+  final screens = [Home(), MesTaches(), MyHomePage(), ProfilPage()];
 
   Widget build(BuildContext context) {
     return Scaffold(

@@ -257,7 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Container(
                     margin: EdgeInsets.symmetric(
                       horizontal: 10.0,
-                      vertical: 20.0,
+                      vertical: 30.0,
                     ),
                     height: 125.0,
                     width: 275.0,
