@@ -10,6 +10,7 @@ import 'package:autorun/Views/Location_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:autorun/utils/globals.dart' as globals;
+import 'package:http/http.dart' as http;
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -516,17 +517,51 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text("Déverrouillé",
                 style: TextStyle(
-                    fontFamily: 'Nunito', fontSize: 15, color: Colors.black))
+                    fontFamily: 'Nunito', fontSize: 15, color: Colors.black)),
+            Container(
+              height: 50,
+              width: 250,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15), color: color),
+              child: MaterialButton(
+                  onPressed: () {
+                    Deverrouillage(index);
+                  },
+                  child: const Text(
+                    "Verrouiller",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontFamily: 'Nunito'),
+                  )),
+            )
           ],
         )
       ]);
   }
 
   Future<void> Deverrouillage(int index) async {
-    if (vehicules[index].etat == 'Verrouillé') {
-      vehicules[index].etat = 'Déverrouillé';
-    } else {
-      vehicules[index].etat = 'Verrouillé';
+    var response = await http
+        .get(Uri.parse(' https://occlusive-gopher-7056.dataplicity.io/unlock'));
+    print(response.body);
+    if (response.statusCode == 200) {
+      if (vehicules[index].etat == 'Verrouillé') {
+        vehicules[index].etat = 'Déverrouillé';
+      } else {
+        vehicules[index].etat = 'Verrouillé';
+      }
+    }
+  }
+
+  Future<void> Verrouillage(int index) async {
+    var response = await http
+        .get(Uri.parse(' https://occlusive-gopher-7056.dataplicity.io/lock'));
+    if (response.statusCode == 200) {
+      if (vehicules[index].etat == 'Dérrouillé') {
+        vehicules[index].etat = 'Verrouillé';
+      } else {
+        vehicules[index].etat = 'Déverrouillé';
+      }
     }
   }
 }

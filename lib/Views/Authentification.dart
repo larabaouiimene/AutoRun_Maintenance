@@ -238,7 +238,6 @@ class Authentification extends State<LoginForm> {
       print('${emailContoller.text}');
       print('Response status: ${response.body}');
       if (response.statusCode == 200) {
-        print(User.fromJson(jsonDecode(response.body)));
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => PageAccuiel()));
       } else {

@@ -51,7 +51,7 @@ class Home extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  globals.user.nom + " " + globals.user.prenom,
+                                  "Raiah Amine",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'Nunito',
