@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:autorun/Modeles/GetUserCoordonnes.dart';
 import 'package:autorun/Views/Home.dart';
 import 'package:autorun/Views/PannePage.dart';
 import 'package:http/http.dart' as http;
@@ -7,6 +8,7 @@ import 'package:autorun/Views/PageAcceuil.dart';
 import 'package:autorun/assets/MyFlutterApp.dart';
 import 'package:autorun/assets/Password.dart';
 import 'package:flutter/material.dart';
+import 'package:autorun/utils/globals.dart' as globals;
 
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -55,6 +57,10 @@ class Authentification extends State<LoginForm> {
   var emailContoller = TextEditingController();
   var passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  User get user => user;
+
+  set user(User user) {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -217,6 +223,7 @@ class Authentification extends State<LoginForm> {
   }
 
   Future<void> login(BuildContext context) async {
+    late User use;
     if (passwordController.text.isNotEmpty && emailContoller.text.isNotEmpty) {
       var response = await http.post(
           Uri.parse(
@@ -231,6 +238,7 @@ class Authentification extends State<LoginForm> {
       print('${emailContoller.text}');
       print('Response status: ${response.body}');
       if (response.statusCode == 200) {
+        print(User.fromJson(jsonDecode(response.body)));
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => PageAccuiel()));
       } else {

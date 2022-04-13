@@ -1,3 +1,4 @@
+import 'package:autorun/Modeles/GetUserCoordonnes.dart';
 import 'package:autorun/Views/Home.dart';
 import 'package:autorun/Views/PannePage.dart';
 import 'package:autorun/Views/ProfilPage.dart';

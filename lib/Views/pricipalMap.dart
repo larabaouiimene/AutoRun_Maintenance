@@ -1,3 +1,4 @@
+import 'package:autorun/assets/Batterie.dart';
 import 'package:autorun/assets/PanneIcon.dart';
 import 'package:autorun/assets/Password.dart';
 import 'package:autorun/assets/Unlock.dart';
@@ -8,6 +9,7 @@ import 'package:autorun/Views/cars_model.dart';
 import 'package:autorun/Views/Location_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:autorun/utils/globals.dart' as globals;
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -77,179 +79,209 @@ class _MyHomePageState extends State<MyHomePage> {
                         BorderRadius.vertical(top: Radius.circular(20))),
                 context: context,
                 builder: (builder) {
-                  return Expanded(
-                      flex: 8,
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: color,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              topLeft: Radius.circular(20)),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black38,
-                                spreadRadius: 0,
-                                blurRadius: 10),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Expanded(
-                                flex: 2,
-                                child: Container(
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(20),
-                                          topLeft: Radius.circular(20)),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.only(top: 30),
-                                          child: Column(
-                                            children: [
-                                              Row(
+                  return Column(
+                    children: [
+                      Expanded(
+                          flex: 8,
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: color,
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(20),
+                                  topLeft: Radius.circular(20)),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black38,
+                                    spreadRadius: 0,
+                                    blurRadius: 10),
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(20),
+                                              topLeft: Radius.circular(20)),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(top: 30),
+                                              child: Column(
                                                 children: [
-                                                  Text(
-                                                      vehicules[index].marque +
-                                                          " " +
+                                                  Row(
+                                                    children: [
+                                                      Text(
                                                           vehicules[index]
-                                                              .modele,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontFamily: 'Nunito',
-                                                          fontSize: 25,
-                                                          color: Colors.white)),
+                                                                  .marque +
+                                                              " " +
+                                                              vehicules[index]
+                                                                  .modele,
+                                                          style:
+                                                              TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontFamily:
+                                                                      'Nunito',
+                                                                  fontSize: 25,
+                                                                  color: Colors
+                                                                      .white)),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Batterie
+                                                            .icon_awesome_battery_full,
+                                                        size: 15,
+                                                        color: Colors.white,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 20,
+                                                      ),
+                                                      Text(
+                                                          vehicules[index]
+                                                              .charge,
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'Nunito',
+                                                              fontSize: 15,
+                                                              color:
+                                                                  Colors.white))
+                                                    ],
+                                                  )
                                                 ],
                                               ),
-                                              Row(
-                                                children: [
-                                                  Text(vehicules[index].charge,
-                                                      style: TextStyle(
-                                                          fontFamily: 'Nunito',
-                                                          fontSize: 15,
-                                                          color: Colors.white))
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Image.asset(
-                                          "assets/imgs/Audi-R8.png",
-                                          width: 150,
-                                        )
-                                      ],
-                                    ))),
-                            Expanded(
-                                flex: 5,
-                                child: Container(
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(20),
-                                          topLeft: Radius.circular(20)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black38,
-                                            spreadRadius: 0,
-                                            blurRadius: 10),
-                                      ],
-                                    ),
+                                            ),
+                                            Image.asset(
+                                              "assets/imgs/Audi-R8.png",
+                                              width: 150,
+                                            )
+                                          ],
+                                        ))),
+                                Expanded(
+                                    flex: 5,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 40, top: 20, right: 20),
-                                      child: Column(children: [
-                                        SizedBox(
-                                          height: 20,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(20),
+                                              topLeft: Radius.circular(20)),
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black38,
+                                                spreadRadius: 0,
+                                                blurRadius: 10),
+                                          ],
                                         ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text("Localisation",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: 'Nunito',
-                                                    fontSize: 15,
-                                                    color: Colors.black)),
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                              left: 40, top: 20, right: 20),
+                                          child: Column(children: [
+                                            SizedBox(
+                                              height: 20,
+                                            ),
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                Icon(
-                                                  PanneIcon.paper_plane,
-                                                  color: color,
-                                                  size: 10,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(
-                                                    vehicules[index]
-                                                            .distance
-                                                            .toString() +
-                                                        " mètres",
+                                                Text("Localisation",
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontFamily: 'Nunito',
-                                                        fontSize: 10,
-                                                        color: Colors.black))
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Container(
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.black),
-                                                borderRadius:
-                                                    BorderRadius.circular(15)),
-                                            child: Container(
-                                              margin: EdgeInsets.all(10),
-                                              child: Row(
-                                                children: [
-                                                  Icon(
-                                                    PanneIcon.marker__1_,
-                                                    color: color,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 15,
-                                                  ),
-                                                  SizedBox(
-                                                    child: Text(
+                                                        fontSize: 15,
+                                                        color: Colors.black)),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    Icon(
+                                                      PanneIcon.paper_plane,
+                                                      color: color,
+                                                      size: 10,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
                                                         vehicules[index]
-                                                            .location,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
+                                                                .distance
+                                                                .toString() +
+                                                            " mètres",
                                                         style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
                                                             fontFamily:
                                                                 'Nunito',
-                                                            fontSize: 15,
+                                                            fontSize: 10,
                                                             color:
-                                                                Colors.grey)),
+                                                                Colors.black))
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: Colors.black),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15)),
+                                                child: Container(
+                                                  margin: EdgeInsets.all(10),
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        PanneIcon.marker__1_,
+                                                        color: color,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 15,
+                                                      ),
+                                                      SizedBox(
+                                                        child: Text(
+                                                            vehicules[index]
+                                                                .location,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'Nunito',
+                                                                fontSize: 15,
+                                                                color: Colors
+                                                                    .grey)),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
-                                            )),
-                                        SizedBox(
-                                          height: 30,
-                                        ),
-                                        _Verrouille(vehicules[index].etat),
-                                      ]),
-                                    )))
-                          ],
-                        ),
-                      ));
+                                                )),
+                                            SizedBox(
+                                              height: 30,
+                                            ),
+                                            _Verrouille(
+                                                vehicules[index].etat, index),
+                                          ]),
+                                        )))
+                              ],
+                            ),
+                          ))
+                    ],
+                  );
                 });
           },
           child: Stack(children: [
@@ -349,6 +381,7 @@ class _MyHomePageState extends State<MyHomePage> {
               controller: _pageController,
               itemCount: vehicules.length,
               itemBuilder: (BuildContext context, int index) {
+                globals.index = index;
                 return _coffeeShopList(index);
               },
             ),
@@ -395,7 +428,7 @@ class _MyHomePageState extends State<MyHomePage> {
         DiagnosticsProperty<GoogleMapController>('_controller', _controller));
   }
 
-  _Verrouille(etat) {
+  _Verrouille(etat, index) {
     if (etat == "Verrouillé") {
       return Container(
         child: Column(
@@ -441,7 +474,9 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15), color: color),
               child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Deverrouillage(index);
+                  },
                   child: const Text(
                     "Déverrouiller",
                     style: TextStyle(
@@ -485,5 +520,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         )
       ]);
+  }
+
+  Future<void> Deverrouillage(int index) async {
+    if (vehicules[index].etat == 'Verrouillé') {
+      vehicules[index].etat = 'Déverrouillé';
+    } else {
+      vehicules[index].etat = 'Verrouillé';
+    }
   }
 }

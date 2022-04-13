@@ -45,6 +45,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   location: ^4.3.0
   form_field_validator: ^1.1.0
+  timelines: ^0.1.0
   
   
 
@@ -127,7 +128,13 @@ flutter:
          - asset: assets/icons/NewIcon.ttf
      - family: Unlock   
        fonts:  
-         - asset: assets/icons/Unlock.ttf                         
+         - asset: assets/icons/Unlock.ttf
+     - family: Batterie   
+       fonts:  
+         - asset: assets/icons/Batterie.ttf
+     - family: Fleche  
+       fonts:  
+         - asset: assets/icons/Fleche.ttf                                  
      #- family: Menu   
      #  fonts:  
       #   - asset: assets/icons/Menu.ttf   

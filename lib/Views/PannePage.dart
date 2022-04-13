@@ -1,4 +1,7 @@
+import 'package:autorun/Views/DetailsTaches.dart';
 import 'package:autorun/Views/Welcome.dart';
+import 'package:autorun/assets/Batterie.dart';
+import 'package:autorun/assets/NewIcon.dart';
 import 'package:autorun/assets/Next.dart';
 import 'package:autorun/assets/PanneIcon.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,7 +27,7 @@ class PannePage extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     icon: Icon(
-                      Next.angle_right,
+                      NewIcon.angle_right,
                       size: 25,
                       color: color.withOpacity(0.3),
                     ),
@@ -147,7 +150,18 @@ class PannePage extends StatelessWidget {
                                             ],
                                           ),
                                           Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
+                                              Icon(
+                                                Batterie
+                                                    .icon_awesome_battery_full,
+                                                size: 15,
+                                                color: color,
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
                                               Text("98%",
                                                   style: TextStyle(
                                                       fontFamily: 'Nunito',
@@ -271,7 +285,13 @@ class PannePage extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(15),
                                         color: color),
                                     child: MaterialButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      DetailsTache()));
+                                        },
                                         child: const Text(
                                           "Commancer la tâche",
                                           style: TextStyle(

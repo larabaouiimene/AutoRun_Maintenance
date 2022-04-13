@@ -3,6 +3,7 @@ import 'package:autorun/assets/MyIcons.dart';
 import 'package:autorun/assets/Next.dart';
 import 'package:autorun/assets/SlideBar.dart';
 import 'package:flutter/material.dart';
+import 'package:autorun/utils/globals.dart' as globals;
 
 class Home extends StatelessWidget {
   static const color = Color(0XFF4361EE);
@@ -50,7 +51,7 @@ class Home extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  " LARBAOUI IMENE",
+                                  globals.user.nom + " " + globals.user.prenom,
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'Nunito',
