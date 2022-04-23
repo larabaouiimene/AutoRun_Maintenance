@@ -54,7 +54,7 @@ final List<Vehicule> vehicules = [
       charge: "98%",
       prix: 2000,
       distance: 50,
-      location: "El harash,Algiers",
+      location: "EPH BAchir mentouri kouba",
       locationCoords: LatLng(36.73402859153134, 3.0925820867497014),
       image:
           'https://lh5.googleusercontent.com/p/AF1QipOfv3DSTkjsgvwCsUe_flDr4DBXneEVR1hWQCvR=w90-h90-n-k-no',
@@ -68,7 +68,7 @@ final List<Vehicule> vehicules = [
       charge: "98%",
       prix: 2000,
       distance: 50,
-      location: "El harash,Algiers",
+      location: "Bab Zouar",
       locationCoords: LatLng(36.72219640576765, 3.183905938245022),
       etat: 'Déverrouillé',
       image:
@@ -82,7 +82,7 @@ final List<Vehicule> vehicules = [
       charge: "98%",
       prix: 2000,
       distance: 50,
-      location: "El harash,Algiers",
+      location: "Djasr Kasentina",
       locationCoords: LatLng(36.69742546502124, 3.075415949250581),
       image:
           'https://lh5.googleusercontent.com/p/AF1QipNhygtMc1wNzN4n6txZLzIhgJ-QZ044R4axyFZX=w90-h90-n-k-no',
@@ -96,7 +96,7 @@ final List<Vehicule> vehicules = [
       charge: "98%",
       prix: 2000,
       distance: 50,
-      location: "El harash,Algiers",
+      location: "Hôpital Salim Zemirli",
       locationCoords: LatLng(36.696324348991226, 3.129660943747801),
       etat: 'Déverrouillé',
       image:

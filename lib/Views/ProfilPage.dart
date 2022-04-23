@@ -61,7 +61,7 @@ class ProfilPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Mohamed Mohamed",
+                "Raiah Amine",
                 style: TextStyle(
                     color: color,
                     fontFamily: "Nunito",
@@ -80,7 +80,7 @@ class ProfilPage extends StatelessWidget {
                 width: 145,
                 child: TextFormField(
                   decoration: const InputDecoration(
-                      labelText: "Mohamed",
+                      labelText: "Raiah",
                       prefixIcon: Icon(
                         MyIcons.user,
                         color: color,
@@ -91,7 +91,7 @@ class ProfilPage extends StatelessWidget {
                 width: 145,
                 child: TextFormField(
                   decoration: const InputDecoration(
-                      labelText: "Mohamed",
+                      labelText: "Amine",
                       prefixIcon: Icon(
                         MyIcons.user,
                         color: color,
@@ -116,7 +116,7 @@ class ProfilPage extends StatelessWidget {
             controller: emailContoller,
             keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
-                labelText: "am@futura.dz",
+                labelText: "amine@gmail.com",
                 prefixIcon: Icon(
                   MyFlutterApp.envelope,
                   color: color,

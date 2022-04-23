@@ -304,20 +304,19 @@ class DetailsTache extends StatelessWidget {
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          TextField(
-                                            decoration: const InputDecoration(
-                                                labelText: "Message",
-                                                suffixIcon: Icon(
-                                                  Fleche.groupe_1558,
-                                                  color: color,
-                                                )),
+                                      Container(
+                                          child: TextField(
+                                        decoration: InputDecoration(
+                                          suffixIcon: Icon(
+                                            Fleche.groupe_1558,
+                                            size: 40,
+                                            color: color,
                                           ),
-                                        ],
-                                      ),
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(15))),
+                                        ),
+                                      )),
                                     ]),
                                   )))
                         ],

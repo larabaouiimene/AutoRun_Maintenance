@@ -53,6 +53,7 @@ class LoginForm extends StatefulWidget {
 
 // ignore: must_be_immutable
 class Authentification extends State<LoginForm> {
+  List _items = [];
   bool ishidenPassword = true;
   var emailContoller = TextEditingController();
   var passwordController = TextEditingController();
@@ -223,7 +224,9 @@ class Authentification extends State<LoginForm> {
   }
 
   Future<void> login(BuildContext context) async {
-    late User use;
+    late User user;
+    var test;
+    var jsonData;
     if (passwordController.text.isNotEmpty && emailContoller.text.isNotEmpty) {
       var response = await http.post(
           Uri.parse(
@@ -235,9 +238,23 @@ class Authentification extends State<LoginForm> {
             'email': emailContoller.text,
             'mdp': passwordController.text
           }));
-      print('${emailContoller.text}');
       print('Response status: ${response.body}');
       if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        var jsonData = json.decode(response.body);
+
+        List<User> users = [];
+
+        for (var k in jsonData.keys) {
+          var u = jsonData[k];
+          globals.user = User(
+            mdp: u["mdp"],
+            nom: u["nom"],
+            prenom: u["prenom"],
+            num_tel: u["num_tel"],
+            email: u["email"],
+          );
+        }
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => PageAccuiel()));
       } else {
@@ -266,5 +283,27 @@ class Authentification extends State<LoginForm> {
     setState(() {
       ishidenPassword = !ishidenPassword;
     });
+  }
+
+  /*Future<void> readJson(response) async {
+    final data = await json.decode(response);
+    setState(() {
+      _items = data["user"];
+    });
+  }
+
+  Future<dynamic> fetchUsers() async {
+    var result = await http.get(Uri.parse(
+        'https://wyerkn74ia.execute-api.eu-west-3.amazonaws.com/login/am'));
+    return jsonDecode(result.body)['user'];
+  }
+
+  void initState() {
+    super.initState();
+    LoginForm();
+  }*/
+  Future<List> fetchJSON(response) async {
+    var data = jsonDecode(response.body);
+    return data;
   }
 }
