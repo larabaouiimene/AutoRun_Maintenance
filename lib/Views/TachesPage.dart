@@ -97,7 +97,7 @@ class _MesTachesState extends State<MesTaches> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Vous avez 3 taches",
+                                "Vos taches",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -136,14 +136,18 @@ class _MesTachesState extends State<MesTaches> {
             ])));
   }
 
-  Future<List<Anomalie>> GetTache(BuildContext context) async {
+  Future<List<Tache>> GetTache(BuildContext context) async {
     var response = await http.get(
-      Uri.parse('https://autorun-crud.herokuapp.com/anomalie'),
+      Uri.parse('https://autorun-crud.herokuapp.com/tache'),
     );
     var jsonData = json.decode(response.body);
-
+    List<Tache> taches = [];
     for (var u in jsonData) {
-      Anomalie anomalie = Anomalie(
+      Tache tache = Tache(
+          anomalie: u["anomalie"],
+          dateIntervention: u["dateIntervention"],
+          idEtape: u["idEtape"]);
+      /* Anomalie anomalie = Anomalie(
           idAnomalie: u["idAnomalie"],
           logitudePositionVehicule: u["logitudePositionVehicule"],
           lalitudePositionVehicule: u["lalitudePositionVehicule"],
@@ -151,16 +155,17 @@ class _MesTachesState extends State<MesTaches> {
           statusAnomalie: u["statusAnomalie"],
           temperatureVehicule: u["temperatureVehicule"],
           dateFin: u["dateFin"],
-          dataDeclenchement: u["dataDeclenchement"]);
-      globals.anomalies.add(anomalie);
+          dataDeclenchement: u["dataDeclenchement"]);*/
+      taches.add(tache);
     }
-    print(globals.anomalies.length);
-    return globals.anomalies;
+    print(taches.length);
+    return taches;
   }
 
   Future<List<dynamic>> fetchAnomalies() async {
     var result = await http
         .get(Uri.parse("https://autorun-crud.herokuapp.com/anomalie"));
+    print(result.body);
     return jsonDecode(result.body);
   }
 
@@ -194,7 +199,12 @@ class _MesTachesState extends State<MesTaches> {
             return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(title: Text(snapshot.data[index].idAnomalie));
+                return ListTile(
+                  title: TacheListWidget(
+                      vehicule: "Lamborghini Urus",
+                      temps: snapshot.data[index].idEtape,
+                      localisation: "Oued Smar.Alger"),
+                );
               },
             );
           }

@@ -2,7 +2,7 @@ class Anomalie {
   final int idAnomalie;
   final double? logitudePositionVehicule;
   final double? lalitudePositionVehicule;
-  final int? niveauChargeVehicule;
+  final double? niveauChargeVehicule;
   final String? statusAnomalie;
   final int? temperatureVehicule;
   final String? dateFin;

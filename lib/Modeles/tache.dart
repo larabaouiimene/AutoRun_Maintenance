@@ -2,7 +2,7 @@ import 'package:autorun/Modeles/anomalie.dart';
 
 class Tache {
   final int idEtape;
-  final DateTime dateIntervention;
+  final String dateIntervention;
   final Anomalie anomalie;
 
   const Tache({
