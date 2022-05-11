@@ -22,7 +22,7 @@ class PageAccuiel extends StatefulWidget {
 class HomePage extends State<PageAccuiel> {
   @override
   int _selectedIndex = 0;
-  final screens = [Home(), MesTaches(), MyHomePage(), ProfilPage()];
+  final screens = [Home(), MesTaches(), MyHomePage(), ProfilePage()];
 
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,9 +1,14 @@
+import 'dart:convert';
+import 'package:autorun/utils/globals.dart' as globals;
+import 'package:autorun/Modeles/anomalie.dart';
+import 'package:autorun/Modeles/tache.dart';
 import 'package:autorun/Views/PannePage.dart';
 import 'package:autorun/assets/Menu.dart';
 import 'package:autorun/assets/MyIcons.dart';
 import 'package:autorun/assets/NewIcon.dart';
 import 'package:autorun/assets/Next.dart';
 import 'package:autorun/widgets/TachesList.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
@@ -11,9 +16,16 @@ import 'package:flutter/material.dart';
 
 const color = Color(0xFF4361EE);
 
-class MesTaches extends StatelessWidget {
+class MesTaches extends StatefulWidget {
   @override
+  _MesTachesState createState() => new _MesTachesState();
+}
+
+class _MesTachesState extends State<MesTaches> {
+  @override
+  late Future<String> _value;
   Widget build(BuildContext context) {
+    GetTache(context);
     return Scaffold(
         body: Container(
             margin: EdgeInsets.only(top: 27),
@@ -95,9 +107,8 @@ class MesTaches extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Container(
-                            height: 500,
-                            child: ListView(children: <Widget>[
+                        Container(height: 500, child: myApiWidget()
+                            /*ListView(children: <Widget>[
                               SizedBox(
                                 width: 30,
                               ),
@@ -117,10 +128,76 @@ class MesTaches extends StatelessWidget {
                                   vehicule: "Lamborghini Urus",
                                   temps: "il y a 3 minutes",
                                   localisation: "Oued Smar.Alger")
-                            ])),
+                            ])*/
+                            ),
                       ],
                     ),
                   ))
             ])));
+  }
+
+  Future<List<Anomalie>> GetTache(BuildContext context) async {
+    var response = await http.get(
+      Uri.parse('https://autorun-crud.herokuapp.com/anomalie'),
+    );
+    var jsonData = json.decode(response.body);
+
+    for (var u in jsonData) {
+      Anomalie anomalie = Anomalie(
+          idAnomalie: u["idAnomalie"],
+          logitudePositionVehicule: u["logitudePositionVehicule"],
+          lalitudePositionVehicule: u["lalitudePositionVehicule"],
+          niveauChargeVehicule: u["niveauChargeVehicule"],
+          statusAnomalie: u["statusAnomalie"],
+          temperatureVehicule: u["temperatureVehicule"],
+          dateFin: u["dateFin"],
+          dataDeclenchement: u["dataDeclenchement"]);
+      globals.anomalies.add(anomalie);
+    }
+    print(globals.anomalies.length);
+    return globals.anomalies;
+  }
+
+  Future<List<dynamic>> fetchAnomalies() async {
+    var result = await http
+        .get(Uri.parse("https://autorun-crud.herokuapp.com/anomalie"));
+    return jsonDecode(result.body);
+  }
+
+  Future<http.Response> Test() async {
+    return await http.get(
+        Uri.parse('https://autorun-crud.herokuapp.com/anomalie'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+  }
+
+  Future<String> getValue() async {
+    await Future.delayed(Duration(seconds: 3));
+
+    return 'Woolha';
+  }
+
+  myApiWidget() {
+    return FutureBuilder(
+        future: GetTache(context),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          print(snapshot.data);
+
+          if (snapshot.data == null) {
+            return Container(
+              child: Center(
+                child: Text("loading..."),
+              ),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(title: Text(snapshot.data[index].idAnomalie));
+              },
+            );
+          }
+        });
   }
 }

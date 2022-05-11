@@ -248,6 +248,7 @@ class Authentification extends State<LoginForm> {
         for (var k in jsonData.keys) {
           var u = jsonData[k];
           globals.user = User(
+            id: u["id"],
             mdp: u["mdp"],
             nom: u["nom"],
             prenom: u["prenom"],
