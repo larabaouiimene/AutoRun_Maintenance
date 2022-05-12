@@ -3,7 +3,7 @@ import 'package:autorun/assets/MyIcons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:autorun/assets/MyFlutterApp.dart';
-
+import 'package:autorun/utils/globals.dart' as globals;
 import '../Modeles/tache.dart';
 import '../Views/PannePage.dart';
 
@@ -115,10 +115,9 @@ class TacheListWidget extends StatelessWidget {
                   child: MaterialButton(
                       color: Colors.yellow,
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PannePage(tache)));
+                        globals.tache = tache;
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Panne()));
                       },
                       child: const Text(
                         "Voir les détails ",

@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:autorun/Views/TachesPage.dart';
 import 'package:autorun/assets/Menu.dart';
 import 'package:autorun/assets/MyIcons.dart';
 import 'package:autorun/assets/Next.dart';
@@ -6,6 +9,11 @@ import 'package:autorun/widgets/TacheWidget.dart';
 import 'package:autorun/widgets/VehiculeWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:autorun/utils/globals.dart' as globals;
+import 'package:http/http.dart' as http;
+import '../Modeles/anomalie.dart';
+import '../Modeles/tache.dart';
+import '../Modeles/vehicule.dart';
+import '../widgets/TachesList.dart';
 
 class Home extends StatelessWidget {
   static const color = Color(0XFF4361EE);
@@ -116,7 +124,12 @@ class Home extends StatelessWidget {
                                     fontWeight: FontWeight.bold),
                               ),
                               TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MesTaches()));
+                                  },
                                   child: const Text(
                                     "Voir tous",
                                     style: TextStyle(
@@ -127,27 +140,7 @@ class Home extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Container(
-                            height: 200,
-                            child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: <Widget>[
-                                  SizedBox(
-                                    width: 30,
-                                  ),
-                                  TacheWidget(
-                                      vehicule: "Lamborghini Urus",
-                                      temps: "il y a 3 minutes",
-                                      localisation: "Oued Smar.Alger"),
-                                  TacheWidget(
-                                      vehicule: "Lamborghini Urus",
-                                      temps: "il y a 3 minutes",
-                                      localisation: "Oued Smar.Alger"),
-                                  TacheWidget(
-                                      vehicule: "Lamborghini Urus",
-                                      temps: "il y a 3 minutes",
-                                      localisation: "Oued Smar.Alger")
-                                ])),
+                        Container(height: 200, child: myApiWidget()),
                         Container(
                           margin: EdgeInsets.only(left: 20, right: 20),
                           child: Row(
@@ -201,5 +194,87 @@ class Home extends StatelessWidget {
                     ),
                   ))
             ])));
+  }
+
+  Future<List<Tache>> GetTache() async {
+    var id_AM = globals.user.id;
+    ;
+    var response = await http.get(
+      Uri.parse(
+          "https://autorun-crud.herokuapp.com/tache?&filter=anomalie.vehicule.amVehicule||\$eq||${id_AM}"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    print(response.body);
+    var jsonData = json.decode(response.body);
+    List<Tache> taches = [];
+    for (var u in jsonData) {
+      Tache tache = Tache(
+        idTache: u["idTache"],
+        dateIntervention: u["dateIntervention"],
+        anomalie: Anomalie(
+            dataDeclenchement: u["anomalie"]["dataDeclenchement"],
+            dateFin: u["anomalie"]["dateFin"],
+            idAnomalie: u["anomalie"]["idAnomalie"],
+            lalitudePositionVehicule:
+                u["anomalie"]["latitudePositionVehicule"].toDouble(),
+            logitudePositionVehicule:
+                u["anomalie"]["logitudePositionVehicule"].toDouble(),
+            niveauChargeVehicule:
+                u["anomalie"]["niveauChargeVehicule"].toString(),
+            statusAnomalie: u["anomalie"]["statusAnomalie"],
+            temperatureVehicule:
+                u["anomalie"]["temperatureVehicule"].toString(),
+            vehicule: Vehicule(
+                idVehicule: u["anomalie"]["vehicule"]["idVehicule"],
+                marque: u["anomalie"]["vehicule"]["marque"])),
+      );
+      /* Anomalie anomalie = Anomalie(
+          idAnomalie: u["idAnomalie"],
+          logitudePositionVehicule: u["logitudePositionVehicule"],
+          lalitudePositionVehicule: u["lalitudePositionVehicule"],
+          niveauChargeVehicule: u["niveauChargeVehicule"],
+          statusAnomalie: u["statusAnomalie"],
+          temperatureVehicule: u["temperatureVehicule"],
+          dateFin: u["dateFin"],
+          dataDeclenchement: u["dataDeclenchement"]);*/
+      taches.add(tache);
+    }
+    print('helloooooooooooooo');
+    print(taches.length);
+    print(response.body);
+    return taches;
+  }
+
+  myApiWidget() {
+    return FutureBuilder(
+        future: GetTache(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          print(snapshot.data);
+
+          if (snapshot.data == null) {
+            return Container(
+              child: Center(
+                child: Text("loading..."),
+              ),
+            );
+          } else {
+            return Expanded(
+                child: ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: TacheListWidget(
+                    vehicule: snapshot.data[index].anomalie.vehicule.marque,
+                    temps: snapshot.data[index].anomalie.dataDeclenchement,
+                    localisation: "Oued Smar.Alger",
+                    tache: snapshot.data[index],
+                  ),
+                );
+              },
+            ));
+          }
+        });
   }
 }

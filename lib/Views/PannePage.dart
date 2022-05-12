@@ -8,13 +8,28 @@ import 'package:autorun/assets/PanneIcon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:battery_indicator/battery_indicator.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:autorun/utils/globals.dart' as globals;
 
-class PannePage extends StatelessWidget {
+class Panne extends StatefulWidget {
+  @override
+  _PanneState createState() => _PanneState();
+}
+
+class _PanneState extends State<Panne> {
   static const color = Color(0XFF4361EE);
-  final Tache tache;
-  PannePage(this.tache);
+  late GoogleMapController mapController; //contrller for Google map
+  final Set<Marker> markers = new Set();
+  var locationMessage =
+      "${globals.tache.anomalie?.lalitudePositionVehicule}, ${globals.tache.anomalie?.logitudePositionVehicule}";
+  static const LatLng showLocation = LatLng(27.7089427, 85.3086209);
+  late GoogleMapController _controller;
+
   @override
   Widget build(BuildContext context) {
+    print(globals.tache.anomalie?.lalitudePositionVehicule);
+
     return Scaffold(
       body: Container(
           color: Colors.grey.withOpacity(0.8),
@@ -104,7 +119,7 @@ class PannePage extends StatelessWidget {
                                           Icon(Icons.timelapse,
                                               color: Colors.white),
                                           Text(
-                                            " ${tache..anomalie?.dataDeclenchement}",
+                                            " ${globals.tache..anomalie?.dataDeclenchement}",
                                             style: TextStyle(
                                                 fontFamily: 'Nunito',
                                                 fontSize: 12,
@@ -143,7 +158,7 @@ class PannePage extends StatelessWidget {
                                           Row(
                                             children: [
                                               Text(
-                                                  "${tache.anomalie?.vehicule?.marque} ",
+                                                  "${globals.tache.anomalie?.vehicule?.marque} ",
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -166,7 +181,7 @@ class PannePage extends StatelessWidget {
                                                 width: 20,
                                               ),
                                               Text(
-                                                  "${tache.anomalie?.niveauChargeVehicule}" +
+                                                  "${globals.tache.anomalie?.niveauChargeVehicule}" +
                                                       "%",
                                                   style: TextStyle(
                                                       fontFamily: 'Nunito',
@@ -239,12 +254,13 @@ class PannePage extends StatelessWidget {
                                             SizedBox(
                                               width: 5,
                                             ),
+                                           
                                             Text(
                                                 "Av.Colonel Mellah Ali,Algiers 16000",
                                                 style: TextStyle(
                                                     fontFamily: 'Nunito',
                                                     fontSize: 15,
-                                                    color: Colors.grey))
+                                                    color: Colors.black))
                                           ],
                                         ),
                                       )),
@@ -278,14 +294,46 @@ class PannePage extends StatelessWidget {
                                                   style: TextStyle(
                                                       fontFamily: 'Nunito',
                                                       fontSize: 15,
-                                                      color: Colors.grey))))),
+                                                      color: Colors.black))))),*/
+                                  Text("Localisation",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Nunito',
+                                          fontSize: 15,
+                                          color: Colors.black)),
                                   SizedBox(
-                                    height: 80,
-                                  ),*/
+                                    height: 5,
+                                  ),
+                                  Container(
+                                    width: 300,
+                                    height: 300,
+                                    child: GoogleMap(
+                                      //Map widget from google_maps_flutter package
+                                      zoomGesturesEnabled:
+                                          true, //enable Zoom in, out on map
+                                      initialCameraPosition: CameraPosition(
+                                        //innital position in map
+                                        target: showLocation, //initial position
+                                        zoom: 15.0, //initial zoom level
+                                      ),
+                                      markers:
+                                          getmarkers(), //markers to show on map
+                                      mapType: MapType.normal, //map type
+                                      myLocationButtonEnabled: true,
+                                      myLocationEnabled: true,
+                                      onMapCreated: (controller) {
+                                        //method called when map is created
+                                        setState(() {
+                                          mapController = controller;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(height: 20),
                                   Container(
                                     alignment: Alignment.bottomCenter,
-                                    height: 50,
-                                    width: 250,
+                                    height: 30,
+                                    width: 200,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
                                         color: color),
@@ -300,7 +348,7 @@ class PannePage extends StatelessWidget {
                                         child: const Text(
                                           "Commancer la tâche",
                                           style: TextStyle(
-                                              fontSize: 20,
+                                              fontSize: 15,
                                               color: Colors.white,
                                               fontFamily: 'Nunito'),
                                         )),
@@ -312,5 +360,45 @@ class PannePage extends StatelessWidget {
                 ))
           ])),
     );
+  }
+
+  /* void mapCreated(controller) {
+    setState(() {
+      _controller = controller;
+      locatePosition();
+    });
+  }*/
+  Position? currentPosition;
+  GoogleMapController? newGoogleMapController;
+  void locatePosition() async {
+    bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    await Geolocator.checkPermission();
+    await Geolocator.requestPermission();
+
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    currentPosition = position;
+    LatLng latLngPosition = LatLng(position.latitude, position.longitude);
+  }
+
+  Set<Marker> getmarkers() {
+    //markers to place on map
+    setState(() {
+      markers.add(Marker(
+        //add first marker
+        markerId: MarkerId(showLocation.toString()),
+        position: showLocation, //position of marker
+        infoWindow: InfoWindow(
+          //popup info
+          title: 'Marker Title First ',
+          snippet: 'My Custom Subtitle',
+        ),
+        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+      ));
+    });
+
+    return markers;
   }
 }

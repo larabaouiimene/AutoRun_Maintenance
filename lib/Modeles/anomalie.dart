@@ -2,8 +2,8 @@ import 'package:autorun/Modeles/vehicule.dart';
 
 class Anomalie {
   final int idAnomalie;
-  final String? logitudePositionVehicule;
-  final String? lalitudePositionVehicule;
+  final double? logitudePositionVehicule;
+  final double? lalitudePositionVehicule;
   final String? niveauChargeVehicule;
   final String? statusAnomalie;
   final String? temperatureVehicule;

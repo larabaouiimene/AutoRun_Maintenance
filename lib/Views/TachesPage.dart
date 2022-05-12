@@ -159,9 +159,9 @@ class _MesTachesState extends State<MesTaches> {
             dateFin: u["anomalie"]["dateFin"],
             idAnomalie: u["anomalie"]["idAnomalie"],
             lalitudePositionVehicule:
-                u["anomalie"]["lalitudePositionVehicule"].toString(),
+                u["anomalie"]["lalitudePositionVehicule"].toDouble(),
             logitudePositionVehicule:
-                u["anomalie"]["logitudePositionVehicule"].toString(),
+                u["anomalie"]["logitudePositionVehicule"].toDouble(),
             niveauChargeVehicule:
                 u["anomalie"]["niveauChargeVehicule"].toString(),
             statusAnomalie: u["anomalie"]["statusAnomalie"],
