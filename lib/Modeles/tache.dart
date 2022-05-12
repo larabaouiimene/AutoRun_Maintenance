@@ -1,13 +1,15 @@
 import 'package:autorun/Modeles/anomalie.dart';
 
+import '../Views/cars_model.dart';
+
 class Tache {
-  final int idEtape;
-  final String dateIntervention;
-  final Anomalie anomalie;
+  final int? idTache;
+  final String? dateIntervention;
+  final Anomalie? anomalie;
 
   const Tache({
-    required this.anomalie,
+    required this.idTache,
     required this.dateIntervention,
-    required this.idEtape,
+    required this.anomalie,
   });
 }

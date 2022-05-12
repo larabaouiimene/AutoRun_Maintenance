@@ -4,16 +4,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:autorun/assets/MyFlutterApp.dart';
 
+import '../Modeles/tache.dart';
 import '../Views/PannePage.dart';
 
 class TacheListWidget extends StatelessWidget {
   TacheListWidget(
       {required this.vehicule,
       required this.temps,
-      required this.localisation});
+      required this.localisation,
+      required this.tache});
   final String vehicule;
   final String temps;
   final String localisation;
+  final Tache tache;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -115,7 +118,7 @@ class TacheListWidget extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PannePage()));
+                                builder: (context) => PannePage(tache)));
                       },
                       child: const Text(
                         "Voir les détails ",

@@ -1,3 +1,4 @@
+import 'package:autorun/Modeles/tache.dart';
 import 'package:autorun/Views/DetailsTaches.dart';
 import 'package:autorun/Views/Welcome.dart';
 import 'package:autorun/assets/Batterie.dart';
@@ -10,7 +11,8 @@ import 'package:battery_indicator/battery_indicator.dart';
 
 class PannePage extends StatelessWidget {
   static const color = Color(0XFF4361EE);
-
+  final Tache tache;
+  PannePage(this.tache);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +93,7 @@ class PannePage extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30),
                                   alignment: Alignment.bottomCenter,
                                   height: 40,
-                                  width: 111,
+                                  width: 180,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15),
                                       color: Colors.white.withOpacity(0.5)),
@@ -102,10 +104,10 @@ class PannePage extends StatelessWidget {
                                           Icon(Icons.timelapse,
                                               color: Colors.white),
                                           Text(
-                                            " 12h20",
+                                            " ${tache..anomalie?.dataDeclenchement}",
                                             style: TextStyle(
                                                 fontFamily: 'Nunito',
-                                                fontSize: 17,
+                                                fontSize: 12,
                                                 color: Colors.white),
                                           )
                                         ],
@@ -140,7 +142,8 @@ class PannePage extends StatelessWidget {
                                         children: [
                                           Row(
                                             children: [
-                                              Text("Audi R8",
+                                              Text(
+                                                  "${tache.anomalie?.vehicule?.marque} ",
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -162,7 +165,9 @@ class PannePage extends StatelessWidget {
                                               SizedBox(
                                                 width: 20,
                                               ),
-                                              Text("98%",
+                                              Text(
+                                                  "${tache.anomalie?.niveauChargeVehicule}" +
+                                                      "%",
                                                   style: TextStyle(
                                                       fontFamily: 'Nunito',
                                                       fontSize: 15,
@@ -180,7 +185,7 @@ class PannePage extends StatelessWidget {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  Row(
+                                  /* Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
@@ -276,7 +281,7 @@ class PannePage extends StatelessWidget {
                                                       color: Colors.grey))))),
                                   SizedBox(
                                     height: 80,
-                                  ),
+                                  ),*/
                                   Container(
                                     alignment: Alignment.bottomCenter,
                                     height: 50,

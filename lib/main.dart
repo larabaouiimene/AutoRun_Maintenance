@@ -18,6 +18,6 @@ void main() {
   runApp(MaterialApp(
       navigatorKey: myNavigatorKey,
       debugShowCheckedModeBanner: false,
-      home: SplashPage(goToPage: MesTaches(), duration: 3)));
+      home: SplashPage(goToPage: WelcomePage(), duration: 3)));
 }
 //https://console.cloud.google.com/google/maps-apis/credentials?hl=fr&project=noted-amphora-346209

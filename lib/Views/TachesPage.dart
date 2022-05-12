@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:autorun/Modeles/vehicule.dart';
 import 'package:autorun/utils/globals.dart' as globals;
 import 'package:autorun/Modeles/anomalie.dart';
 import 'package:autorun/Modeles/tache.dart';
@@ -92,7 +93,7 @@ class _MesTachesState extends State<MesTaches> {
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(left: 50, right: 20, top: 10),
+                          margin: EdgeInsets.only(left: 50, right: 20, top: 3),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -137,16 +138,39 @@ class _MesTachesState extends State<MesTaches> {
   }
 
   Future<List<Tache>> GetTache(BuildContext context) async {
+    var id_AM = globals.user.id;
+    ;
     var response = await http.get(
-      Uri.parse('https://autorun-crud.herokuapp.com/tache'),
+      Uri.parse(
+          "https://autorun-crud.herokuapp.com/tache?&filter=anomalie.vehicule.amVehicule||\$eq||${id_AM}"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
     );
+    print(response.body);
     var jsonData = json.decode(response.body);
     List<Tache> taches = [];
     for (var u in jsonData) {
       Tache tache = Tache(
-          anomalie: u["anomalie"],
-          dateIntervention: u["dateIntervention"],
-          idEtape: u["idEtape"]);
+        idTache: u["idTache"],
+        dateIntervention: u["dateIntervention"],
+        anomalie: Anomalie(
+            dataDeclenchement: u["anomalie"]["dataDeclenchement"],
+            dateFin: u["anomalie"]["dateFin"],
+            idAnomalie: u["anomalie"]["idAnomalie"],
+            lalitudePositionVehicule:
+                u["anomalie"]["lalitudePositionVehicule"].toString(),
+            logitudePositionVehicule:
+                u["anomalie"]["logitudePositionVehicule"].toString(),
+            niveauChargeVehicule:
+                u["anomalie"]["niveauChargeVehicule"].toString(),
+            statusAnomalie: u["anomalie"]["statusAnomalie"],
+            temperatureVehicule:
+                u["anomalie"]["temperatureVehicule"].toString(),
+            vehicule: Vehicule(
+                idVehicule: u["anomalie"]["vehicule"]["idVehicule"],
+                marque: u["anomalie"]["vehicule"]["marque"])),
+      );
       /* Anomalie anomalie = Anomalie(
           idAnomalie: u["idAnomalie"],
           logitudePositionVehicule: u["logitudePositionVehicule"],
@@ -158,29 +182,10 @@ class _MesTachesState extends State<MesTaches> {
           dataDeclenchement: u["dataDeclenchement"]);*/
       taches.add(tache);
     }
+    print('helloooooooooooooo');
     print(taches.length);
+    print(response.body);
     return taches;
-  }
-
-  Future<List<dynamic>> fetchAnomalies() async {
-    var result = await http
-        .get(Uri.parse("https://autorun-crud.herokuapp.com/anomalie"));
-    print(result.body);
-    return jsonDecode(result.body);
-  }
-
-  Future<http.Response> Test() async {
-    return await http.get(
-        Uri.parse('https://autorun-crud.herokuapp.com/anomalie'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        });
-  }
-
-  Future<String> getValue() async {
-    await Future.delayed(Duration(seconds: 3));
-
-    return 'Woolha';
   }
 
   myApiWidget() {
@@ -201,9 +206,11 @@ class _MesTachesState extends State<MesTaches> {
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   title: TacheListWidget(
-                      vehicule: "Lamborghini Urus",
-                      temps: snapshot.data[index].idEtape,
-                      localisation: "Oued Smar.Alger"),
+                    vehicule: snapshot.data[index].anomalie.vehicule.marque,
+                    temps: snapshot.data[index].anomalie.dataDeclenchement,
+                    localisation: "Oued Smar.Alger",
+                    tache: snapshot.data[index],
+                  ),
                 );
               },
             );
