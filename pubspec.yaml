@@ -136,9 +136,9 @@ flutter:
      - family: Fleche  
        fonts:  
          - asset: assets/icons/Fleche.ttf
-     - family: Flutter2  
+     - family: MenuIcon  
        fonts:  
-         - asset: assets/icons/Flutter2.ttf                                      
+         - asset: assets/icons/MenuIcon.ttf                                      
      #- family: Menu   
      #  fonts:  
       #   - asset: assets/icons/Menu.ttf   

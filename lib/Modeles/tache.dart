@@ -1,7 +1,5 @@
 import 'package:autorun/Modeles/anomalie.dart';
 
-import '../Views/cars_model.dart';
-
 class Tache {
   final int? idTache;
   final String? dateIntervention;

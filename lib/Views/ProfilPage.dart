@@ -42,7 +42,6 @@ class Profile extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    User user = globals.user;
     var nom = globals.user.nom;
     final top = coverHeight;
     final bottom = profilHeight * 2;

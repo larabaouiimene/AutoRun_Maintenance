@@ -1,18 +1,18 @@
 import 'dart:convert';
 
+import 'package:autorun/Modeles/MyVehicule.dart';
+import 'package:autorun/Modeles/typeVehicule.dart';
 import 'package:autorun/Views/TachesPage.dart';
-import 'package:autorun/assets/Menu.dart';
+import 'package:autorun/Views/Vehicule.dart';
+import 'package:autorun/Views/VehiculesPage.dart';
 import 'package:autorun/assets/MyIcons.dart';
-import 'package:autorun/assets/Next.dart';
 import 'package:autorun/assets/SlideBar.dart';
-import 'package:autorun/widgets/TacheWidget.dart';
 import 'package:autorun/widgets/VehiculeWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:autorun/utils/globals.dart' as globals;
 import 'package:http/http.dart' as http;
 import '../Modeles/anomalie.dart';
 import '../Modeles/tache.dart';
-import '../Modeles/vehicule.dart';
 import '../widgets/TachesList.dart';
 
 class Home extends StatelessWidget {
@@ -140,7 +140,7 @@ class Home extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Container(height: 200, child: myApiWidget()),
+                        Container(height: 200, child: myApiWidgetTache()),
                         Container(
                           margin: EdgeInsets.only(left: 20, right: 20),
                           child: Row(
@@ -155,7 +155,13 @@ class Home extends StatelessWidget {
                                     fontSize: 22),
                               ),
                               TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MesVehicules()));
+                                  },
                                   child: const Text(
                                     "Voir tous",
                                     style: TextStyle(
@@ -166,30 +172,7 @@ class Home extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Container(
-                            height: 140,
-                            child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: <Widget>[
-                                  SizedBox(
-                                    width: 30,
-                                  ),
-                                  VehiculeWidget(
-                                    vehicule: "Lamborghini Urus",
-                                    image: "assets/imgs/car.png",
-                                    couleur: Colors.yellow,
-                                  ),
-                                  VehiculeWidget(
-                                    vehicule: "Lamborghini Urus",
-                                    image: "assets/imgs/car.png",
-                                    couleur: Colors.lightBlue,
-                                  ),
-                                  VehiculeWidget(
-                                    vehicule: "Lamborghini Urus",
-                                    image: "assets/imgs/car.png",
-                                    couleur: Colors.yellow,
-                                  )
-                                ]))
+                        myApiWidgetVehicule(),
                       ],
                     ),
                   ))
@@ -206,7 +189,7 @@ class Home extends StatelessWidget {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    print(response.body);
+
     var jsonData = json.decode(response.body);
     List<Tache> taches = [];
     for (var u in jsonData) {
@@ -223,12 +206,19 @@ class Home extends StatelessWidget {
                 u["anomalie"]["logitudePositionVehicule"].toDouble(),
             niveauChargeVehicule:
                 u["anomalie"]["niveauChargeVehicule"].toString(),
-            statusAnomalie: u["anomalie"]["statusAnomalie"],
+            statutAnomalie: u["anomalie"]["statutAnomalie"],
             temperatureVehicule:
                 u["anomalie"]["temperatureVehicule"].toString(),
-            vehicule: Vehicule(
-                idVehicule: u["anomalie"]["vehicule"]["idVehicule"],
-                marque: u["anomalie"]["vehicule"]["marque"])),
+            vehicule: MyVehicule(
+              idVehicule: u["anomalie"]["vehicule"]["idVehicule"],
+              marque: u["anomalie"]["vehicule"]["marque"],
+              amVehicule: u["anomalie"]["vehicule"]["amVehicule"],
+              couleur: u["anomalie"]["vehicule"]["couleur"],
+              matricule: u["anomalie"]["vehicule"]["matricule"],
+              modele: u["anomalie"]["vehicule"]["modele"],
+              verrouillee: u["anomalie"]["vehicule"]["verrouillee"],
+              enService: u["anomalie"]["vehicule"]["enService"],
+            )),
       );
       /* Anomalie anomalie = Anomalie(
           idAnomalie: u["idAnomalie"],
@@ -241,13 +231,13 @@ class Home extends StatelessWidget {
           dataDeclenchement: u["dataDeclenchement"]);*/
       taches.add(tache);
     }
-    print('helloooooooooooooo');
+    /*  print('helloooooooooooooo');
     print(taches.length);
-    print(response.body);
+    print(response.body);*/
     return taches;
   }
 
-  myApiWidget() {
+  myApiWidgetTache() {
     return FutureBuilder(
         future: GetTache(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -260,8 +250,9 @@ class Home extends StatelessWidget {
               ),
             );
           } else {
-            return Expanded(
+            return Container(
                 child: ListView.builder(
+              shrinkWrap: true,
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
@@ -274,6 +265,81 @@ class Home extends StatelessWidget {
                 );
               },
             ));
+          }
+        });
+  }
+
+  Future<List<MyVehicule>> GetVehicules() async {
+    var id_AM = globals.user.id;
+    ;
+    var response = await http.get(
+      Uri.parse("https://autorun-crud.herokuapp.com/vehicule"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    print(response.body);
+    print(response.statusCode);
+    var jsonData = json.decode(response.body);
+    List<MyVehicule> vehicules = [];
+    for (var u in jsonData) {
+      MyVehicule vehicule = MyVehicule(
+        idVehicule: u["idVehicule"],
+        marque: u["marque"],
+        amVehicule: u["amVehicule"],
+        couleur: u["couleur"],
+        matricule: u["matricule"],
+        modele: u["modele"],
+        verrouillee: u["verrouillee"],
+        enService: u["enService"],
+      );
+
+      /* Anomalie anomalie = Anomalie(
+          idAnomalie: u["idAnomalie"],
+          logitudePositionVehicule: u["logitudePositionVehicule"],
+          lalitudePositionVehicule: u["lalitudePositionVehicule"],
+          niveauChargeVehicule: u["niveauChargeVehicule"],
+          statusAnomalie: u["statusAnomalie"],
+          temperatureVehicule: u["temperatureVehicule"],
+          dateFin: u["dateFin"],
+          dataDeclenchement: u["dataDeclenchement"]);*/
+      vehicules.add(vehicule);
+    }
+    print('helloooooooooooooo');
+    print(vehicules.length);
+    print(response.body);
+    return vehicules;
+  }
+
+  myApiWidgetVehicule() {
+    return FutureBuilder(
+        future: GetVehicules(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          print(snapshot.data);
+
+          if (snapshot.data == null) {
+            return Container(
+              child: Center(
+                child: Text("loading..."),
+              ),
+            );
+          } else {
+            return Container(
+                height: 140,
+                width: 400,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      title: VehiculeWidget(
+                        vehicule: snapshot.data[index].marque,
+                        image: "assets/imgs/car.png",
+                        couleur: Colors.yellow,
+                      ),
+                    );
+                  },
+                ));
           }
         });
   }

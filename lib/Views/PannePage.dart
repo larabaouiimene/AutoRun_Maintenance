@@ -1,4 +1,5 @@
 import 'package:autorun/Modeles/tache.dart';
+import 'package:autorun/Views/DetailsTache1.dart';
 import 'package:autorun/Views/DetailsTaches.dart';
 import 'package:autorun/Views/Welcome.dart';
 import 'package:autorun/assets/Batterie.dart';
@@ -23,6 +24,8 @@ class _PanneState extends State<Panne> {
   final Set<Marker> markers = new Set();
   var locationMessage =
       "${globals.tache.anomalie?.lalitudePositionVehicule}, ${globals.tache.anomalie?.logitudePositionVehicule}";
+  var lat = globals.tache.anomalie?.lalitudePositionVehicule;
+  var log = globals.tache.anomalie?.lalitudePositionVehicule;
   static const LatLng showLocation = LatLng(27.7089427, 85.3086209);
   late GoogleMapController _controller;
 
@@ -119,7 +122,7 @@ class _PanneState extends State<Panne> {
                                           Icon(Icons.timelapse,
                                               color: Colors.white),
                                           Text(
-                                            " ${globals.tache..anomalie?.dataDeclenchement}",
+                                            " ${globals.tache.anomalie?.dataDeclenchement}",
                                             style: TextStyle(
                                                 fontFamily: 'Nunito',
                                                 fontSize: 12,
@@ -343,7 +346,7 @@ class _PanneState extends State<Panne> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      DetailsTache()));
+                                                      Details()));
                                         },
                                         child: const Text(
                                           "Commancer la tâche",

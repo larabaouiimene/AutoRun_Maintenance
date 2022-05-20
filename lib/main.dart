@@ -2,6 +2,7 @@ import 'package:autorun/SplashPage.dart';
 import 'package:autorun/Views/MapLocation.dart';
 import 'package:autorun/Views/Menu.dart';
 import 'package:autorun/Views/ProfilPage.dart';
+import 'package:autorun/Views/Support.dart';
 import 'package:autorun/Views/TachesPage.dart';
 import 'package:autorun/Views/Vehicule.dart';
 import 'package:autorun/Views/PannePage.dart';

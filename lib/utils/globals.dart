@@ -1,4 +1,5 @@
 import 'package:autorun/Modeles/GetUserCoordonnes.dart';
+import 'package:autorun/Modeles/MyVehicule.dart';
 import 'package:autorun/Modeles/tache.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -9,3 +10,4 @@ Widget widget = Container();
 late User user;
 List<Anomalie> anomalies = [];
 late Tache tache;
+late MyVehicule myVehicule;

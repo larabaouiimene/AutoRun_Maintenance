@@ -1,24 +1,25 @@
-import 'package:autorun/Modeles/vehicule.dart';
+import 'package:autorun/Modeles/MyVehicule.dart';
 
 class Anomalie {
   final int idAnomalie;
-  final double? logitudePositionVehicule;
-  final double? lalitudePositionVehicule;
+  final double logitudePositionVehicule;
+  final double lalitudePositionVehicule;
   final String? niveauChargeVehicule;
-  final String? statusAnomalie;
   final String? temperatureVehicule;
   final String? dateFin;
   final String? dataDeclenchement;
-  final Vehicule? vehicule;
+  final MyVehicule? vehicule;
+  final String? statutAnomalie;
 
-  const Anomalie(
-      {required this.idAnomalie,
-      required this.dataDeclenchement,
-      required this.logitudePositionVehicule,
-      required this.lalitudePositionVehicule,
-      required this.niveauChargeVehicule,
-      required this.dateFin,
-      required this.statusAnomalie,
-      required this.temperatureVehicule,
-      required this.vehicule});
+  const Anomalie({
+    required this.statutAnomalie,
+    required this.idAnomalie,
+    required this.dataDeclenchement,
+    required this.logitudePositionVehicule,
+    required this.lalitudePositionVehicule,
+    required this.niveauChargeVehicule,
+    required this.dateFin,
+    required this.temperatureVehicule,
+    required this.vehicule,
+  });
 }

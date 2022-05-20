@@ -1,8 +1,11 @@
 import 'package:autorun/assets/Flutter.dart';
+import 'package:autorun/assets/MenuIcon.dart';
+import 'package:autorun/assets/MyIcons.dart';
 import 'package:autorun/assets/NewIcon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:autorun/utils/globals.dart' as globals;
 
 const color = Color(0XFF4361EE);
 
@@ -26,6 +29,25 @@ class Menu extends State<MenuPage> {
           child: Column(
             children: [
               buildTop(),
+              SizedBox(
+                height: 40,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "${globals.user.nom} " + "${globals.user.prenom}",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Nunito",
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 30,
+              ),
               buildContent(context),
             ],
           ),
@@ -36,7 +58,7 @@ class Menu extends State<MenuPage> {
 
   Widget buildCoverCoantainer() => Container(
         width: double.infinity,
-        height: 300,
+        height: 200,
       );
   Widget buildProfileImage() => CircleAvatar(
         radius: profilHeight / 2,
@@ -66,14 +88,20 @@ class Menu extends State<MenuPage> {
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(20), topLeft: Radius.circular(20))),
         child: Container(
-          margin: EdgeInsets.only(left: 30, right: 30),
           child: Column(children: [
+            SizedBox(
+              height: 30,
+            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  NewIcon.angle_right,
+                  MyIcons.user,
                   color: color,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 15,
                 ),
                 Text(
                   "Profile",
@@ -82,7 +110,141 @@ class Menu extends State<MenuPage> {
                     fontSize: 20,
                   ),
                 ),
+                SizedBox(
+                  width: 65,
+                ),
                 TextButton(onPressed: () {}, child: Icon(NewIcon.angle_right))
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  MyIcons.list_check,
+                  color: color,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Text(
+                  "Mes tâches",
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(
+                  width: 25,
+                ),
+                TextButton(onPressed: () {}, child: Icon(NewIcon.angle_right))
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  MyIcons.car,
+                  color: color,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Text(
+                  "Mes voitures",
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                TextButton(onPressed: () {}, child: Icon(NewIcon.angle_right))
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  MenuIcon.info,
+                  color: color,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Text(
+                  "Supports",
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(
+                  width: 45,
+                ),
+                TextButton(onPressed: () {}, child: Icon(NewIcon.angle_right))
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  MenuIcon.settings,
+                  color: color,
+                  size: 25,
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Text(
+                  "Paramètres",
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(
+                  width: 25,
+                ),
+                TextButton(onPressed: () {}, child: Icon(NewIcon.angle_right))
+              ],
+            ),
+            SizedBox(
+              height: 35,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Deconnexion",
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Icon(
+                  MenuIcon.sign_out,
+                  color: color,
+                  size: 20,
+                ),
               ],
             )
           ]),

@@ -1,19 +1,16 @@
 import 'dart:convert';
-import 'package:autorun/Modeles/vehicule.dart';
+import 'package:autorun/Modeles/MyVehicule.dart';
 import 'package:autorun/utils/globals.dart' as globals;
 import 'package:autorun/Modeles/anomalie.dart';
 import 'package:autorun/Modeles/tache.dart';
-import 'package:autorun/Views/PannePage.dart';
-import 'package:autorun/assets/Menu.dart';
-import 'package:autorun/assets/MyIcons.dart';
+
 import 'package:autorun/assets/NewIcon.dart';
-import 'package:autorun/assets/Next.dart';
 import 'package:autorun/widgets/TachesList.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-
 import 'package:flutter/material.dart';
+
+import '../Modeles/typeVehicule.dart';
 
 const color = Color(0xFF4361EE);
 
@@ -26,7 +23,7 @@ class _MesTachesState extends State<MesTaches> {
   @override
   late Future<String> _value;
   Widget build(BuildContext context) {
-    GetTache(context);
+    GetTache();
     return Scaffold(
         body: Container(
             margin: EdgeInsets.only(top: 27),
@@ -96,19 +93,10 @@ class _MesTachesState extends State<MesTaches> {
                           margin: EdgeInsets.only(left: 50, right: 20, top: 3),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Vos taches",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontFamily: 'Nunito',
-                                ),
-                              ),
-                            ],
+                            children: [],
                           ),
                         ),
-                        Container(height: 500, child: myApiWidget()
+                        Container(height: 500, child: myApiWidgetTache()
                             /*ListView(children: <Widget>[
                               SizedBox(
                                 width: 30,
@@ -137,7 +125,7 @@ class _MesTachesState extends State<MesTaches> {
             ])));
   }
 
-  Future<List<Tache>> GetTache(BuildContext context) async {
+  Future<List<Tache>> GetTache() async {
     var id_AM = globals.user.id;
     ;
     var response = await http.get(
@@ -159,17 +147,24 @@ class _MesTachesState extends State<MesTaches> {
             dateFin: u["anomalie"]["dateFin"],
             idAnomalie: u["anomalie"]["idAnomalie"],
             lalitudePositionVehicule:
-                u["anomalie"]["lalitudePositionVehicule"].toDouble(),
+                u["anomalie"]["latitudePositionVehicule"].toDouble(),
             logitudePositionVehicule:
                 u["anomalie"]["logitudePositionVehicule"].toDouble(),
             niveauChargeVehicule:
                 u["anomalie"]["niveauChargeVehicule"].toString(),
-            statusAnomalie: u["anomalie"]["statusAnomalie"],
+            statutAnomalie: u["anomalie"]["statutAnomalie"],
             temperatureVehicule:
                 u["anomalie"]["temperatureVehicule"].toString(),
-            vehicule: Vehicule(
-                idVehicule: u["anomalie"]["vehicule"]["idVehicule"],
-                marque: u["anomalie"]["vehicule"]["marque"])),
+            vehicule: MyVehicule(
+              idVehicule: u["anomalie"]["vehicule"]["idVehicule"],
+              marque: u["anomalie"]["vehicule"]["marque"],
+              amVehicule: u["anomalie"]["vehicule"]["amVehicule"],
+              couleur: u["anomalie"]["vehicule"]["couleur"],
+              matricule: u["anomalie"]["vehicule"]["matricule"],
+              modele: u["anomalie"]["vehicule"]["modele"],
+              verrouillee: u["anomalie"]["vehicule"]["verrouillee"],
+              enService: u["anomalie"]["vehicule"]["enService"],
+            )),
       );
       /* Anomalie anomalie = Anomalie(
           idAnomalie: u["idAnomalie"],
@@ -188,9 +183,9 @@ class _MesTachesState extends State<MesTaches> {
     return taches;
   }
 
-  myApiWidget() {
+  myApiWidgetTache() {
     return FutureBuilder(
-        future: GetTache(context),
+        future: GetTache(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           print(snapshot.data);
 
@@ -201,7 +196,9 @@ class _MesTachesState extends State<MesTaches> {
               ),
             );
           } else {
-            return ListView.builder(
+            return Expanded(
+                child: ListView.builder(
+              shrinkWrap: true,
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
@@ -213,7 +210,7 @@ class _MesTachesState extends State<MesTaches> {
                   ),
                 );
               },
-            );
+            ));
           }
         });
   }

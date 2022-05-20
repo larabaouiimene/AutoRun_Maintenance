@@ -1,7 +1,12 @@
+import 'dart:convert';
+
+import 'package:autorun/assets/NewIcon.dart';
 import 'package:autorun/assets/Next.dart';
 import 'package:autorun/assets/PanneIcon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:autorun/utils/globals.dart' as globals;
+import 'package:http/http.dart' as http;
 
 class VehiculePage extends StatelessWidget {
   static const color = Color(0XFF4361EE);
@@ -67,7 +72,7 @@ class VehiculePage extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    Text("Audi R8",
+                                    Text("${globals.myVehicule.marque}",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'Nunito',
@@ -75,15 +80,6 @@ class VehiculePage extends StatelessWidget {
                                             color: Colors.white)),
                                   ],
                                 ),
-                                Row(
-                                  children: [
-                                    Text("98%",
-                                        style: TextStyle(
-                                            fontFamily: 'Nunito',
-                                            fontSize: 15,
-                                            color: Colors.white))
-                                  ],
-                                )
                               ],
                             ),
                           )),
@@ -159,7 +155,7 @@ class VehiculePage extends StatelessWidget {
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   Text(
-                                                    " Audi",
+                                                    "${globals.myVehicule.marque}",
                                                     style: TextStyle(
                                                         fontSize: 10,
                                                         fontFamily: 'Nunito'),
@@ -200,7 +196,7 @@ class VehiculePage extends StatelessWidget {
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   Text(
-                                                    " R8",
+                                                    "${globals.myVehicule.modele}",
                                                     style: TextStyle(
                                                         fontSize: 10,
                                                         fontFamily: 'Nunito'),
@@ -241,7 +237,7 @@ class VehiculePage extends StatelessWidget {
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   Text(
-                                                    " Grise",
+                                                    "${globals.myVehicule.couleur}",
                                                     style: TextStyle(
                                                         fontSize: 10,
                                                         fontFamily: 'Nunito'),
@@ -316,7 +312,7 @@ class VehiculePage extends StatelessWidget {
                                                 fontFamily: 'Nunito'),
                                           ),
                                           Text(
-                                            "123456 00 16",
+                                            "${globals.myVehicule.matricule}",
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontFamily: 'Nunito'),
@@ -338,26 +334,6 @@ class VehiculePage extends StatelessWidget {
                                               fontFamily: 'Nunito',
                                               fontSize: 18,
                                               color: Colors.black)),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Icon(
-                                            PanneIcon.paper_plane,
-                                            color: color,
-                                            size: 10,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text("500 mètres",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: 'Nunito',
-                                                  fontSize: 10,
-                                                  color: Colors.black))
-                                        ],
-                                      )
                                     ],
                                   ),
                                   SizedBox(
@@ -387,7 +363,7 @@ class VehiculePage extends StatelessWidget {
                                                 style: TextStyle(
                                                     fontFamily: 'Nunito',
                                                     fontSize: 15,
-                                                    color: Colors.grey))
+                                                    color: Colors.black))
                                           ],
                                         ),
                                       )),
@@ -435,18 +411,25 @@ class VehiculePage extends StatelessWidget {
                                       Row(
                                         children: [
                                           Icon(
-                                            PanneIcon.road,
+                                            NewIcon.unlock,
                                             color: color,
                                             size: 15,
                                           ),
                                           SizedBox(
                                             width: 10,
                                           ),
-                                          Text("En service",
-                                              style: TextStyle(
-                                                  fontFamily: 'Nunito',
-                                                  fontSize: 15,
-                                                  color: Colors.black))
+                                          if (globals.myVehicule.verrouillee)
+                                            Text("Verrouillé",
+                                                style: TextStyle(
+                                                    fontFamily: 'Nunito',
+                                                    fontSize: 15,
+                                                    color: Colors.black))
+                                          else
+                                            Text("Verrouillé",
+                                                style: TextStyle(
+                                                    fontFamily: 'Nunito',
+                                                    fontSize: 15,
+                                                    color: Colors.black))
                                         ],
                                       ),
                                     ],
@@ -461,7 +444,9 @@ class VehiculePage extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(15),
                                         color: color),
                                     child: MaterialButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          CreatAnomalie(context);
+                                        },
                                         child: const Text(
                                           "Signaler une panne ",
                                           style: TextStyle(
@@ -479,5 +464,41 @@ class VehiculePage extends StatelessWidget {
                 ))
           ])),
     );
+  }
+
+  Future<void> CreatAnomalie(BuildContext context) async {
+    Map<String, dynamic> body = {
+      "idAnomalie": "0",
+      "logitudePositionVehicule": "0",
+      "latitudePositionVehicule": "0",
+      "niveauChargeVehicule": "0",
+      "temperatureVehicule": "0",
+      "statutAnomalie": "EN_COURS",
+      "dateFin": "2022-05-20T12:48:57.624Z",
+      'vehicule': json.encode({
+        "idVehicule": "0",
+        "marque": "string",
+        "matricule": "string",
+        "modele": "string",
+        "couleur": "string",
+        "verrouillee": "true",
+        "enService": "true",
+        "amVehicule": "0",
+        'am': {'amId': "0"},
+        "typeVehicule": {
+          "idTypeVehicule": "0",
+          "valTypeVehicule": "string",
+          "tarifHeure": "0"
+        }
+      }),
+    };
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+    };
+    var response = await http.post(
+        Uri.parse("https://autorun-crud.herokuapp.com/anomalie"),
+        body: body);
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
   }
 }

@@ -1,12 +1,13 @@
-import 'package:autorun/assets/Menu.dart';
-import 'package:autorun/assets/MyIcons.dart';
+import 'dart:convert';
+import 'package:autorun/utils/globals.dart' as globals;
 import 'package:autorun/assets/NewIcon.dart';
 import 'package:autorun/assets/Next.dart';
-import 'package:battery_indicator/battery_indicator.dart';
-
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
+
+import '../Modeles/MyVehicule.dart';
+import '../widgets/MyVehiculeWidget.dart';
 
 const color = Color(0xFF4361EE);
 
@@ -82,407 +83,90 @@ class MesVehicules extends StatelessWidget {
                           margin: EdgeInsets.only(left: 50, right: 20, top: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Vous avez 5 véhicules",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontFamily: 'Nunito',
-                                ),
-                              ),
-                            ],
+                            children: [],
                           ),
                         ),
-                        Container(
-                            height: 500,
-                            child: ListView(children: <Widget>[
-                              SizedBox(
-                                width: 30,
-                              ),
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(17)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                      blurRadius: 4,
-                                      offset: Offset(4, 4), // Shadow position
-                                    ),
-                                  ],
-                                ),
-                                width: 270,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 7,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Text(
-                                          "Audi R8",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 22,
-                                              color: Colors.black,
-                                              fontFamily: 'Nunito'),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 15),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                NewIcon.paper_plane,
-                                                color: color,
-                                                size: 20,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "A 12 kilomètres",
-                                                style: TextStyle(
-                                                    fontFamily: 'Nunito'),
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                NewIcon.road,
-                                                color: color,
-                                                size: 20,
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text("En service",
-                                                  style: TextStyle(
-                                                      fontFamily: 'Nunito'))
-                                            ],
-                                          ),
-                                          SizedBox(height: 10),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                NewIcon.unlock,
-                                                color: color,
-                                                size: 20,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text("Déverouillé",
-                                                  style: TextStyle(
-                                                      fontFamily: 'Nunito'))
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Container(
-                                              height: 50,
-                                              width: 150,
-                                              child: Row(
-                                                children: [
-                                                  GestureDetector(
-                                                    child: Text(
-                                                      "Voir les détails",
-                                                      style: TextStyle(
-                                                          fontSize: 17,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                          color: color),
-                                                    ),
-                                                    onTap: () {},
-                                                  ),
-                                                  Icon(
-                                                    Next.angle_right,
-                                                    color: color,
-                                                    size: 17,
-                                                  )
-                                                ],
-                                              ))
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(17)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                      blurRadius: 4,
-                                      offset: Offset(4, 4), // Shadow position
-                                    ),
-                                  ],
-                                ),
-                                width: 270,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 7,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Text(
-                                          "Audi R8",
-                                          style: TextStyle(
-                                              fontFamily: 'Nunito',
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 22,
-                                              color: Colors.black),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 15),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                NewIcon.paper_plane,
-                                                color: color,
-                                                size: 20,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text("A 12 kilomètres",
-                                                  style: TextStyle(
-                                                      fontFamily: 'Nunito'))
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                NewIcon.road,
-                                                color: color,
-                                                size: 20,
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text("En service",
-                                                  style: TextStyle(
-                                                      fontFamily: 'Nunito'))
-                                            ],
-                                          ),
-                                          SizedBox(height: 10),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                NewIcon.unlock,
-                                                color: color,
-                                                size: 20,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text("Déverouillé",
-                                                  style: TextStyle(
-                                                      fontFamily: 'Nunito'))
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 50,
-                                          ),
-                                          Container(
-                                              height: 30,
-                                              width: 150,
-                                              child: Row(
-                                                children: [
-                                                  GestureDetector(
-                                                    child: Text(
-                                                      "Voir les détails",
-                                                      style: TextStyle(
-                                                          fontSize: 17,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                          color: color),
-                                                    ),
-                                                    onTap: () {},
-                                                  ),
-                                                  Icon(
-                                                    Next.angle_right,
-                                                    color: color,
-                                                    size: 17,
-                                                  )
-                                                ],
-                                              ))
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(17)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                      blurRadius: 4,
-                                      offset: Offset(4, 4), // Shadow position
-                                    ),
-                                  ],
-                                ),
-                                width: 270,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 7,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Text(
-                                          "Audi R8",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Nunito',
-                                              fontSize: 22,
-                                              color: Colors.black),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 15),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                NewIcon.paper_plane,
-                                                color: color,
-                                                size: 20,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text("A 12 kilomètres",
-                                                  style: TextStyle(
-                                                      fontFamily: 'Nunito'))
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                NewIcon.road,
-                                                color: color,
-                                                size: 20,
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text("En service",
-                                                  style: TextStyle(
-                                                      fontFamily: 'Nunito'))
-                                            ],
-                                          ),
-                                          SizedBox(height: 10),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                NewIcon.unlock,
-                                                color: color,
-                                                size: 20,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text("Déverouillé",
-                                                  style: TextStyle(
-                                                      fontFamily: 'Nunito'))
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 0,
-                                          ),
-                                          Image.asset(
-                                            "assets/imgs/audi.png",
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Container(
-                                              height: 30,
-                                              width: 150,
-                                              child: Row(
-                                                children: [
-                                                  GestureDetector(
-                                                    child: Text(
-                                                      "Voir les détails",
-                                                      style: TextStyle(
-                                                          fontSize: 17,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                          color: color),
-                                                    ),
-                                                    onTap: () {},
-                                                  ),
-                                                  Icon(
-                                                    Next.angle_right,
-                                                    color: color,
-                                                    size: 17,
-                                                  )
-                                                ],
-                                              )),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ])),
+                        myApiWidgetVehicule()
                       ],
                     ),
                   ))
             ])));
   }
-}
 
-mixin RxInt {}
+  Future<List<MyVehicule>> GetVehicules() async {
+    var id_AM = globals.user.id;
+    ;
+    var response = await http.get(
+      Uri.parse("https://autorun-crud.herokuapp.com/vehicule"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    print(response.body);
+    print(response.statusCode);
+    var jsonData = json.decode(response.body);
+    List<MyVehicule> vehicules = [];
+    for (var u in jsonData) {
+      MyVehicule vehicule = MyVehicule(
+        idVehicule: u["idVehicule"],
+        marque: u["marque"],
+        amVehicule: u["amVehicule"],
+        couleur: u["couleur"],
+        matricule: u["matricule"],
+        modele: u["modele"],
+        verrouillee: u["verrouillee"],
+        enService: u["enService"],
+      );
+
+      /* Anomalie anomalie = Anomalie(
+          idAnomalie: u["idAnomalie"],
+          logitudePositionVehicule: u["logitudePositionVehicule"],
+          lalitudePositionVehicule: u["lalitudePositionVehicule"],
+          niveauChargeVehicule: u["niveauChargeVehicule"],
+          statusAnomalie: u["statusAnomalie"],
+          temperatureVehicule: u["temperatureVehicule"],
+          dateFin: u["dateFin"],
+          dataDeclenchement: u["dataDeclenchement"]);*/
+      vehicules.add(vehicule);
+    }
+    print('helloooooooooooooo');
+    print(vehicules.length);
+    print(response.body);
+    return vehicules;
+  }
+
+  myApiWidgetVehicule() {
+    return FutureBuilder(
+        future: GetVehicules(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          print(snapshot.data);
+
+          if (snapshot.data == null) {
+            return Container(
+              child: Center(
+                child: Text("loading..."),
+              ),
+            );
+          } else {
+            return Container(
+                height: 500,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                        title: MyVehiculeWidget(
+                      enService: "En Service",
+                      image: 'assets/imgs/Audi-R8.png',
+                      nom: snapshot.data[index].marque,
+                      verrouille: snapshot.data[index].verrouillee
+                          ? "Verrouillé"
+                          : "Déverrouillé",
+                      vehicule: snapshot.data[index],
+                    ));
+                  },
+                ));
+          }
+        });
+  }
+}
