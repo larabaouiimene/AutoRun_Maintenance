@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'package:autorun/Modeles/MyVehicule.dart';
 import 'package:autorun/Modeles/typeVehicule.dart';
+import 'package:autorun/Views/Menu.dart';
 import 'package:autorun/Views/TachesPage.dart';
 import 'package:autorun/Views/Vehicule.dart';
 import 'package:autorun/Views/VehiculesPage.dart';
+import 'package:autorun/assets/MenuIcone.dart';
 import 'package:autorun/assets/MyIcons.dart';
+import 'package:autorun/assets/MyMenu.dart';
 import 'package:autorun/assets/SlideBar.dart';
 import 'package:autorun/widgets/VehiculeWidget.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +36,17 @@ class Home extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(SlideBar.groupe_104),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MenuPage()));
+                              },
+                              child: Icon(
+                                MyMenu.menu,
+                                color: Colors.white,
+                              )),
                           Icon(
                             MyIcons.bell,
                             color: Colors.white,

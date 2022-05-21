@@ -36,6 +36,7 @@ dependencies:
   geolocator: ^8.2.0
   material_design_icons_flutter: ^5.0.6595
   latlng: ^0.1.0
+  shared_preferences: ^2.0.15
 
   
   flutter_polyline_points: ^1.0.0
@@ -138,7 +139,10 @@ flutter:
          - asset: assets/icons/Fleche.ttf
      - family: MenuIcon  
        fonts:  
-         - asset: assets/icons/MenuIcon.ttf                                      
+         - asset: assets/icons/MenuIcon.ttf 
+     - family: MyMenu  
+       fonts:  
+         - asset: assets/icons/MyMenu.ttf                                          
      #- family: Menu   
      #  fonts:  
       #   - asset: assets/icons/Menu.ttf   

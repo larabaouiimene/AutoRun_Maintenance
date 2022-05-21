@@ -1,3 +1,7 @@
+import 'package:autorun/Views/ProfilPage.dart';
+import 'package:autorun/Views/Support.dart';
+import 'package:autorun/Views/TachesPage.dart';
+import 'package:autorun/Views/VehiculesPage.dart';
 import 'package:autorun/assets/Flutter.dart';
 import 'package:autorun/assets/MenuIcon.dart';
 import 'package:autorun/assets/MyIcons.dart';
@@ -113,7 +117,14 @@ class Menu extends State<MenuPage> {
                 SizedBox(
                   width: 65,
                 ),
-                TextButton(onPressed: () {}, child: Icon(NewIcon.angle_right))
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage()));
+                    },
+                    child: Icon(NewIcon.angle_right))
               ],
             ),
             SizedBox(
@@ -140,7 +151,12 @@ class Menu extends State<MenuPage> {
                 SizedBox(
                   width: 25,
                 ),
-                TextButton(onPressed: () {}, child: Icon(NewIcon.angle_right))
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MesTaches()));
+                    },
+                    child: Icon(NewIcon.angle_right))
               ],
             ),
             SizedBox(
@@ -167,7 +183,14 @@ class Menu extends State<MenuPage> {
                 SizedBox(
                   width: 15,
                 ),
-                TextButton(onPressed: () {}, child: Icon(NewIcon.angle_right))
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MesVehicules()));
+                    },
+                    child: Icon(NewIcon.angle_right))
               ],
             ),
             SizedBox(
@@ -194,7 +217,14 @@ class Menu extends State<MenuPage> {
                 SizedBox(
                   width: 45,
                 ),
-                TextButton(onPressed: () {}, child: Icon(NewIcon.angle_right))
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SupportPage()));
+                    },
+                    child: Icon(NewIcon.angle_right))
               ],
             ),
             SizedBox(

@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 
-class Menu {
-  Menu._();
+class MenuIcon {
+  MenuIcon._();
 
-  static const _kFontFam = 'Menu';
+  static const _kFontFam = 'MenuIcon';
   static const String? _kFontPkg = null;
 
-  static const IconData groupe_104 =
+  static const IconData menu_outline =
       IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

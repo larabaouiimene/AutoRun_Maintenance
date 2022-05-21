@@ -473,7 +473,7 @@ class VehiculePage extends StatelessWidget {
       "latitudePositionVehicule": "0",
       "niveauChargeVehicule": "0",
       "temperatureVehicule": "0",
-      "statutAnomalie": "EN_COURS",
+      "statutAnomalie": "EN_ATTENTE",
       "dateFin": "2022-05-20T12:48:57.624Z",
       'vehicule': json.encode({
         "idVehicule": "0",
@@ -500,5 +500,60 @@ class VehiculePage extends StatelessWidget {
         body: body);
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
+    if (response.statusCode == 201) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("anomalie crée")));
+      CreatTache(context);
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("une erreur s'est produit")));
+    }
+  }
+
+  Future<void> CreatTache(BuildContext context) async {
+    Map<String, dynamic> body = {
+      "idTache": 0,
+      "dateIntervention": "2022-05-21T08:43:28.769Z",
+      "anomalie": {
+        "idAnomalie": 0,
+        "logitudePositionVehicule": 0,
+        "latitudePositionVehicule": 0,
+        "niveauChargeVehicule": 0,
+        "temperatureVehicule": 0,
+        "statutAnomalie": "EN_COURS",
+        "dateFin": "2022-05-21T08:43:28.769Z",
+        "vehicule": {
+          "idVehicule": 0,
+          "marque": "string",
+          "matricule": "string",
+          "modele": "string",
+          "couleur": "string",
+          "verrouillee": true,
+          "enService": true,
+          "amVehicule": 0,
+          "am": {"amId": 0},
+          "typeVehicule": {
+            "idTypeVehicule": 0,
+            "valTypeVehicule": "string",
+            "tarifHeure": 0
+          }
+        }
+      }
+    };
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+    };
+    var response = await http.post(
+        Uri.parse("https://autorun-crud.herokuapp.com/tache"),
+        body: body);
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    if (response.statusCode == 201) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("anomalie crée")));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("une erreur s'est produit")));
+    }
   }
 }

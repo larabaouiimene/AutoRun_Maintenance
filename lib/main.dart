@@ -11,6 +11,8 @@ import 'package:autorun/Views/pricipalMap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'Views/SignalProbleme.dart';
+
 void main() {
   final GlobalKey<NavigatorState> myNavigatorKey = GlobalKey<NavigatorState>();
   WidgetsFlutterBinding.ensureInitialized();
