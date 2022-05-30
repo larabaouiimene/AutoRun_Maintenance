@@ -1,24 +1,26 @@
 import 'dart:convert';
 
 import 'package:autorun/Modeles/MyVehicule.dart';
-import 'package:autorun/Modeles/typeVehicule.dart';
 import 'package:autorun/Views/Menu.dart';
 import 'package:autorun/Views/TachesPage.dart';
-import 'package:autorun/Views/Vehicule.dart';
 import 'package:autorun/Views/VehiculesPage.dart';
-import 'package:autorun/assets/MenuIcone.dart';
 import 'package:autorun/assets/MyIcons.dart';
 import 'package:autorun/assets/MyMenu.dart';
-import 'package:autorun/assets/SlideBar.dart';
 import 'package:autorun/widgets/VehiculeWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:autorun/utils/globals.dart' as globals;
 import 'package:http/http.dart' as http;
-import '../Modeles/anomalie.dart';
+
 import '../Modeles/tache.dart';
 import '../widgets/TachesList.dart';
+import 'package:autorun/Modeles/anomalie.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   static const color = Color(0XFF4361EE);
   @override
   Widget build(BuildContext context) {
@@ -195,9 +197,10 @@ class Home extends StatelessWidget {
   Future<List<Tache>> GetTache() async {
     var id_AM = globals.user.id;
     ;
+    //https://autorun-crud.herokuapp.com/tache?&filter=anomalie.vehicule.am.amId||\$eq||${id_AM}
     var response = await http.get(
       Uri.parse(
-          "https://autorun-crud.herokuapp.com/tache?&filter=anomalie.vehicule.amVehicule||\$eq||${id_AM}"),
+          "https://autorun-crud.herokuapp.com/tache?&filter=anomalie.vehicule.am||\$eq||${id_AM}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -205,35 +208,41 @@ class Home extends StatelessWidget {
 
     var jsonData = json.decode(response.body);
     List<Tache> taches = [];
-    for (var u in jsonData) {
-      Tache tache = Tache(
-        idTache: u["idTache"],
-        dateIntervention: u["dateIntervention"],
-        anomalie: Anomalie(
-            dataDeclenchement: u["anomalie"]["dataDeclenchement"],
-            dateFin: u["anomalie"]["dateFin"],
-            idAnomalie: u["anomalie"]["idAnomalie"],
-            lalitudePositionVehicule:
-                u["anomalie"]["latitudePositionVehicule"].toDouble(),
-            logitudePositionVehicule:
-                u["anomalie"]["logitudePositionVehicule"].toDouble(),
-            niveauChargeVehicule:
-                u["anomalie"]["niveauChargeVehicule"].toString(),
-            statutAnomalie: u["anomalie"]["statutAnomalie"],
-            temperatureVehicule:
-                u["anomalie"]["temperatureVehicule"].toString(),
-            vehicule: MyVehicule(
-              idVehicule: u["anomalie"]["vehicule"]["idVehicule"],
-              marque: u["anomalie"]["vehicule"]["marque"],
-              amVehicule: u["anomalie"]["vehicule"]["amVehicule"],
-              couleur: u["anomalie"]["vehicule"]["couleur"],
-              matricule: u["anomalie"]["vehicule"]["matricule"],
-              modele: u["anomalie"]["vehicule"]["modele"],
-              verrouillee: u["anomalie"]["vehicule"]["verrouillee"],
-              enService: u["anomalie"]["vehicule"]["enService"],
-            )),
-      );
-      /* Anomalie anomalie = Anomalie(
+    setState(() {
+      for (var u in jsonData) {
+        Tache tache = Tache(
+          idTache: u["idTache"],
+          dateInterventionTache: u["dateInterventionTache"],
+          anomalie: Anomalie(
+              dataDeclenchement: u["anomalie"]["dataDeclenchement"],
+              dateFin: u["anomalie"]["dateFin"],
+              idAnomalie: u["anomalie"]["idAnomalie"],
+              lalitudePositionVehicule:
+                  u["anomalie"]["latitudePositionVehicule"].toDouble(),
+              logitudePositionVehicule:
+                  u["anomalie"]["logitudePositionVehicule"].toDouble(),
+              niveauChargeVehicule:
+                  u["anomalie"]["niveauChargeVehicule"].toString(),
+              statutAnomalie: u["anomalie"]["statutAnomalie"],
+              temperatureVehicule:
+                  u["anomalie"]["temperatureVehicule"].toString(),
+              vehicule: MyVehicule(
+                idVehicule: u["anomalie"]["vehicule"]["idVehicule"],
+                marque: u["anomalie"]["vehicule"]["marque"],
+                amVehicule: u["anomalie"]["vehicule"]["amVehicule"],
+                couleur: u["anomalie"]["vehicule"]["couleur"],
+                matricule: u["anomalie"]["vehicule"]["matricule"],
+                modele: u["anomalie"]["vehicule"]["modele"],
+                verrouillee: u["anomalie"]["vehicule"]["verrouillee"],
+                enService: u["anomalie"]["vehicule"]["enService"],
+              ),
+              causePanne: u["anomalie"]["causePanne"]),
+          dateFinTache: u["dateFinTache"],
+          descriptionTache: u["descriptionTache"],
+          nomTache: u["nomTache"],
+          tache_terminee: u["tache_terminee"],
+        );
+        /* Anomalie anomalie = Anomalie(
           idAnomalie: u["idAnomalie"],
           logitudePositionVehicule: u["logitudePositionVehicule"],
           lalitudePositionVehicule: u["lalitudePositionVehicule"],
@@ -242,8 +251,9 @@ class Home extends StatelessWidget {
           temperatureVehicule: u["temperatureVehicule"],
           dateFin: u["dateFin"],
           dataDeclenchement: u["dataDeclenchement"]);*/
-      taches.add(tache);
-    }
+        taches.add(tache);
+      }
+    });
     /*  print('helloooooooooooooo');
     print(taches.length);
     print(response.body);*/
@@ -286,7 +296,8 @@ class Home extends StatelessWidget {
     var id_AM = globals.user.id;
     ;
     var response = await http.get(
-      Uri.parse("https://autorun-crud.herokuapp.com/vehicule"),
+      Uri.parse(
+          "https://autorun-crud.herokuapp.com/vehicule?&filter=am.amId||\$eq||${id_AM}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -346,8 +357,10 @@ class Home extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       title: VehiculeWidget(
-                        vehicule: snapshot.data[index].marque,
+                        vehicule: snapshot.data[index],
+                        marque: snapshot.data[index].marque,
                         image: "assets/imgs/car.png",
+                        modele: snapshot.data[index].modele,
                         couleur: Colors.yellow,
                       ),
                     );

@@ -1,8 +1,11 @@
+import 'package:autorun/Modeles/MyVehicule.dart';
 import 'package:autorun/Views/Authentification.dart';
+import 'package:autorun/Views/Vehicule.dart';
 import 'package:autorun/assets/MyIcons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:autorun/assets/MyFlutterApp.dart';
+import 'package:autorun/utils/globals.dart' as globals;
 
 import '../assets/Next.dart';
 
@@ -11,9 +14,13 @@ class VehiculeWidget extends StatelessWidget {
     required this.vehicule,
     required this.image,
     required this.couleur,
+    required this.marque,
+    required this.modele,
   });
   final Color couleur;
-  final String vehicule;
+  final String modele;
+  final String marque;
+  final MyVehicule vehicule;
   final String image;
   @override
   Widget build(BuildContext context) {
@@ -37,17 +44,25 @@ class VehiculeWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
-                "Voir détails",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 10,
-                    fontFamily: 'Nunito'),
+              GestureDetector(
+                child: Text(
+                  "Voir détails",
+                  style: TextStyle(
+                      fontSize: 11,
+                      decoration: TextDecoration.none,
+                      color: Colors.black),
+                ),
+                onTap: () {
+                  globals.myVehicule = vehicule;
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => VehiculePage()));
+                },
               ),
               Icon(
                 Next.angle_right,
-                size: 10,
-              ),
+                color: color,
+                size: 12,
+              )
             ],
           ),
           SizedBox(
@@ -61,7 +76,7 @@ class VehiculeWidget extends StatelessWidget {
           ),
           Center(
             child: Text(
-              vehicule,
+              marque + " " + modele,
               style: TextStyle(fontSize: 15, fontFamily: 'Nunito'),
             ),
           )

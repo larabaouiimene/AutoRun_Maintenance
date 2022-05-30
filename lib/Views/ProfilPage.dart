@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:autorun/Modeles/GetUserCoordonnes.dart';
 import 'package:autorun/Views/Authentification.dart';
 import 'package:autorun/Views/PageAcceuil.dart';
 import 'package:autorun/assets/MyIcons.dart';
@@ -7,8 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:autorun/assets/MyFlutterApp.dart';
 import 'package:http/http.dart' as http;
-
-import '../Modeles/GetUserCoordonnes.dart';
 import 'package:autorun/utils/globals.dart' as globals;
 
 import '../assets/Password.dart';

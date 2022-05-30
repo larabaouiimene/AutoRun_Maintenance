@@ -1,18 +1,30 @@
 import 'dart:convert';
+import 'package:autorun/Modeles/Etape.dart';
+import 'package:autorun/Modeles/MyVehicule.dart';
 import 'package:autorun/utils/globals.dart' as globals;
+import 'package:autorun/Modeles/anomalie.dart';
+import 'package:autorun/Modeles/tache.dart';
+
 import 'package:autorun/assets/NewIcon.dart';
-import 'package:autorun/assets/Next.dart';
+import 'package:autorun/widgets/TachesList.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 
-import '../Modeles/MyVehicule.dart';
-import '../widgets/MyVehiculeWidget.dart';
+import '../Modeles/typeVehicule.dart';
+import '../widgets/EtapeWidget.dart';
 
 const color = Color(0xFF4361EE);
 
-class MesVehicules extends StatelessWidget {
+class MesEtapes extends StatefulWidget {
   @override
+  _MesEtapesState createState() => new _MesEtapesState();
+}
+
+class _MesEtapesState extends State<MesEtapes> {
+  @override
+  late Future<String> _value;
+
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
@@ -33,7 +45,7 @@ class MesVehicules extends StatelessWidget {
                             size: 20,
                           ),
                           Text(
-                            "Mes Véhicules",
+                            "Etapes",
                             style: TextStyle(
                                 color: color,
                                 fontSize: 22,
@@ -80,64 +92,72 @@ class MesVehicules extends StatelessWidget {
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(left: 50, right: 20, top: 10),
+                          margin: EdgeInsets.only(left: 50, right: 20, top: 3),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [],
                           ),
                         ),
-                        myApiWidgetVehicule()
+                        Container(height: 500, child: myApiWidgetEtape()
+                            /*ListView(children: <Widget>[
+                              SizedBox(
+                                width: 30,
+                              ),
+                              TacheListWidget(
+                                  vehicule: "Lamborghini Urus",
+                                  temps: "il y a 3 minutes",
+                                  localisation: "Oued Smar.Alger"),
+                              TacheListWidget(
+                                  vehicule: "Lamborghini Urus",
+                                  temps: "il y a 3 minutes",
+                                  localisation: "Oued Smar.Alger"),
+                              TacheListWidget(
+                                  vehicule: "Lamborghini Urus",
+                                  temps: "il y a 3 minutes",
+                                  localisation: "Oued Smar.Alger"),
+                              TacheListWidget(
+                                  vehicule: "Lamborghini Urus",
+                                  temps: "il y a 3 minutes",
+                                  localisation: "Oued Smar.Alger")
+                            ])*/
+                            ),
                       ],
                     ),
                   ))
             ])));
   }
 
-  Future<List<MyVehicule>> GetVehicules() async {
-    var id_AM = globals.user.id;
-    ;
+  Future<List<Etape>> GetEtape() async {
+    //  var id_tache = globals.tache.idTache;
+    // print(id_tache);
+    var id = globals.tache.idTache;
     var response = await http.get(
-      Uri.parse("https://autorun-crud.herokuapp.com/vehicule"),
+      Uri.parse(
+          "https://autorun-crud.herokuapp.com/etape?&filter=tache.idTache||\$eq||${id}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    print(response.body);
-    print(response.statusCode);
-    var jsonData = json.decode(response.body);
-    List<MyVehicule> vehicules = [];
-    for (var u in jsonData) {
-      MyVehicule vehicule = MyVehicule(
-        idVehicule: u["idVehicule"],
-        marque: u["marque"],
-        amVehicule: u["am"]["amId"],
-        couleur: u["couleur"],
-        matricule: u["matricule"],
-        modele: u["modele"],
-        verrouillee: u["verrouillee"],
-        enService: u["enService"],
-      );
+    // print("https://autorun-crud.herokuapp.com/tache?&filter=anomalie.vehicule.am||\$eq||${id_AM}");
 
-      /* Anomalie anomalie = Anomalie(
-          idAnomalie: u["idAnomalie"],
-          logitudePositionVehicule: u["logitudePositionVehicule"],
-          lalitudePositionVehicule: u["lalitudePositionVehicule"],
-          niveauChargeVehicule: u["niveauChargeVehicule"],
-          statusAnomalie: u["statusAnomalie"],
-          temperatureVehicule: u["temperatureVehicule"],
-          dateFin: u["dateFin"],
-          dataDeclenchement: u["dataDeclenchement"]);*/
-      vehicules.add(vehicule);
-    }
-    print('helloooooooooooooo');
-    print(vehicules.length);
     print(response.body);
-    return vehicules;
+    var jsonData = json.decode(response.body);
+    List<Etape> etapes = [];
+    for (var u in jsonData) {
+      Etape etape = Etape(
+          idEtape: u["idEtape"],
+          dateDebutEtape: u["dateDebutEtape"],
+          detailsEtape: u['detailsEtape']);
+
+      etapes.add(etape);
+    }
+
+    return etapes;
   }
 
-  myApiWidgetVehicule() {
+  myApiWidgetEtape() {
     return FutureBuilder(
-        future: GetVehicules(),
+        future: GetEtape(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           print(snapshot.data);
 
@@ -148,24 +168,22 @@ class MesVehicules extends StatelessWidget {
               ),
             );
           } else {
-            return Container(
-                height: 500,
+            int cpt = 1;
+            return Expanded(
                 child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                        title: MyVehiculeWidget(
-                      enService: "En Service",
-                      image: 'assets/imgs/Audi-R8.png',
-                      nom: snapshot.data[index].marque,
-                      verrouille: snapshot.data[index].verrouillee
-                          ? "Verrouillé"
-                          : "Déverrouillé",
-                      vehicule: snapshot.data[index],
-                    ));
-                  },
-                ));
+              shrinkWrap: true,
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: EtapeWidget(
+                    cpt: cpt++,
+                    dateDebutEtape: snapshot.data[index].dateDebutEtape,
+                    detailsEtape:
+                        "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+                  ),
+                );
+              },
+            ));
           }
         });
   }

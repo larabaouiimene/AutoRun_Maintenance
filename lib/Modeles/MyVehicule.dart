@@ -7,7 +7,7 @@ class MyVehicule {
   final String? modele;
   final String? couleur;
   final bool verrouillee;
-  final bool? enService;
+  final bool enService;
   final int? amVehicule;
 
   const MyVehicule({

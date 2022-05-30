@@ -1,12 +1,11 @@
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:autorun/assets/NewIcon.dart';
 import 'package:autorun/assets/Next.dart';
 import 'package:autorun/assets/PanneIcon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:autorun/utils/globals.dart' as globals;
-import 'package:http/http.dart' as http;
 
 class VehiculePage extends StatelessWidget {
   static const color = Color(0XFF4361EE);
@@ -26,7 +25,7 @@ class VehiculePage extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     icon: Icon(
-                      Next.angle_right,
+                      NewIcon.angle_right,
                       size: 25,
                       color: color.withOpacity(0.3),
                     ),
@@ -445,10 +444,15 @@ class VehiculePage extends StatelessWidget {
                                         color: color),
                                     child: MaterialButton(
                                         onPressed: () {
-                                          CreatAnomalie(context);
+                                          CreatPanne(context);
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      VehiculePage()));
                                         },
                                         child: const Text(
-                                          "Signaler une panne ",
+                                          "Signaler une panne",
                                           style: TextStyle(
                                               fontSize: 20,
                                               color: Colors.white,
@@ -466,76 +470,138 @@ class VehiculePage extends StatelessWidget {
     );
   }
 
-  Future<void> CreatAnomalie(BuildContext context) async {
-    Map<String, dynamic> body = {
-      "idAnomalie": "0",
-      "logitudePositionVehicule": "0",
-      "latitudePositionVehicule": "0",
-      "niveauChargeVehicule": "0",
-      "temperatureVehicule": "0",
-      "statutAnomalie": "EN_ATTENTE",
-      "dateFin": "2022-05-20T12:48:57.624Z",
-      'vehicule': json.encode({
-        "idVehicule": "0",
-        "marque": "string",
-        "matricule": "string",
-        "modele": "string",
-        "couleur": "string",
-        "verrouillee": "true",
-        "enService": "true",
-        "amVehicule": "0",
-        'am': {'amId': "0"},
-        "typeVehicule": {
-          "idTypeVehicule": "0",
-          "valTypeVehicule": "string",
-          "tarifHeure": "0"
-        }
-      }),
-    };
-    Map<String, String> headers = {
-      'Content-Type': 'application/json; charset=UTF-8',
-    };
-    var response = await http.post(
-        Uri.parse("https://autorun-crud.herokuapp.com/anomalie"),
-        body: body);
+  Future<void> CreatPanne(BuildContext context) async {
+    var url = "https://autorun-crud.herokuapp.com/panne";
+    var response = await http.post(Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, Object>{
+          "idAnomalie": "0",
+          "anomalieTraitee": "true",
+          "causePanne": "string",
+          "logitudePositionVehicule": "0",
+          "latitudePositionVehicule": "0",
+          "niveauChargeVehicule": "0",
+          "temperatureVehicule": "0",
+          "statutAnomalie": "EN_COURS",
+          "vehicule": {
+            "idVehicule": "${globals.myVehicule.idVehicule}",
+            "marque": "${globals.myVehicule.marque}",
+            "matricule": "${globals.myVehicule.matricule}",
+            "modele": "${globals.myVehicule.modele}",
+            "couleur": "${globals.myVehicule.couleur}",
+            "verrouillee": globals.myVehicule.verrouillee ? "true" : "false",
+            "enService": globals.myVehicule.enService ? "true" : "false",
+            "am": {"amId": "${globals.myVehicule.amVehicule}"},
+            "typeVehicule": {
+              "idTypeVehicule": "0",
+              "valTypeVehicule": "string",
+              "tarifHeure": "0"
+            }
+          }
+        }));
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
     if (response.statusCode == 201) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("anomalie crée")));
-      CreatTache(context);
+      var jsonData = json.decode(response.body);
+      var idAnomalie;
+      for (var k in jsonData.keys) {
+        var u = jsonData[k];
+        if (k == "idAnomalie") {
+          idAnomalie = u;
+        }
+        print(idAnomalie);
+      }
+      CreatTache(context, idAnomalie);
     } else {
+      print(response.statusCode);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("une erreur s'est produit")));
     }
   }
 
-  Future<void> CreatTache(BuildContext context) async {
+  Future<void> CreatTache(BuildContext context, id) async {
+    var url = "https://autorun-crud.herokuapp.com/tache";
+    var response = await http.post(Uri.parse(url),
+        headers: {"content-type": "application/json"},
+        body: jsonEncode(<String, Object>{
+          "idTache": 0,
+          "dateInterventionTache": "2022-05-27T08:20:27.377Z",
+          "dateFinTache": "2022-05-27T08:20:27.377Z",
+          "tache_terminee": false,
+          "nomTache": "string",
+          "descriptionTache": "string",
+          "anomalie": {
+            "idAnomalie": "${id}",
+            "dataDeclenchement": "2022-05-27T08:20:27.377Z",
+            "dateFin": "2022-05-27T08:20:27.377Z",
+            "anomalieTraitee": false,
+            "logitudePositionVehicule": 0,
+            "latitudePositionVehicule": 0,
+            "niveauChargeVehicule": 0,
+            "temperatureVehicule": 0,
+            "statutAnomalie": "EN_COURS",
+            "vehicule": {
+              "idVehicule": 0,
+              "marque": "string",
+              "matricule": "string",
+              "modele": "string",
+              "couleur": "string",
+              "verrouillee": true,
+              "enService": true,
+              "am": {"amId": 0},
+              "typeVehicule": {
+                "idTypeVehicule": 0,
+                "valTypeVehicule": "string",
+                "tarifHeure": 0
+              }
+            }
+          }
+        }));
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    if (response.statusCode == 201) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("panne Signalée")));
+      Navigator.pop(context);
+    } else {
+      print(response.statusCode);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("une erreur s'est produit")));
+    }
+  }
+
+  Future<void> CreatEtape(BuildContext context) async {
     Map<String, dynamic> body = {
-      "idTache": 0,
-      "dateIntervention": "2022-05-21T08:43:28.769Z",
-      "anomalie": {
-        "idAnomalie": 0,
-        "logitudePositionVehicule": 0,
-        "latitudePositionVehicule": 0,
-        "niveauChargeVehicule": 0,
-        "temperatureVehicule": 0,
-        "statutAnomalie": "EN_COURS",
-        "dateFin": "2022-05-21T08:43:28.769Z",
-        "vehicule": {
-          "idVehicule": 0,
-          "marque": "string",
-          "matricule": "string",
-          "modele": "string",
-          "couleur": "string",
-          "verrouillee": true,
-          "enService": true,
-          "amVehicule": 0,
-          "am": {"amId": 0},
-          "typeVehicule": {
-            "idTypeVehicule": 0,
-            "valTypeVehicule": "string",
-            "tarifHeure": 0
+      "etapeTerminee": true,
+      "idEtape": 0,
+      "detailsEtape": "string",
+      "tache": {
+        "idTache": 0,
+        "anomalie": {
+          "idAnomalie": 0,
+          "logitudePositionVehicule": 0,
+          "latitudePositionVehicule": 0,
+          "niveauChargeVehicule": 0,
+          "temperatureVehicule": 0,
+          "statutAnomalie": "EN_COURS",
+          "dateFin": "2022-05-21T08:43:28.769Z",
+          "vehicule": {
+            "idVehicule": 0,
+            "marque": "string",
+            "matricule": "string",
+            "modele": "string",
+            "couleur": "string",
+            "verrouillee": true,
+            "enService": true,
+            "amVehicule": 0,
+            "am": {"amId": 0},
+            "typeVehicule": {
+              "idTypeVehicule": 0,
+              "valTypeVehicule": "string",
+              "tarifHeure": 0
+            }
           }
         }
       }
@@ -544,7 +610,7 @@ class VehiculePage extends StatelessWidget {
       'Content-Type': 'application/json; charset=UTF-8',
     };
     var response = await http.post(
-        Uri.parse("https://autorun-crud.herokuapp.com/tache"),
+        Uri.parse("https://autorun-crud.herokuapp.com/etape"),
         body: body);
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');

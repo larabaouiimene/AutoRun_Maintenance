@@ -128,9 +128,11 @@ class _MesTachesState extends State<MesTaches> {
   Future<List<Tache>> GetTache() async {
     var id_AM = globals.user.id;
     ;
+
+    //"https://autorun-crud.herokuapp.com/tache?&filter=anomalie.vehicule.am||\$eq||${id_AM}"
     var response = await http.get(
       Uri.parse(
-          "https://autorun-crud.herokuapp.com/tache?&filter=anomalie.vehicule.amVehicule||\$eq||${id_AM}"),
+          "https://autorun-crud.herokuapp.com/tache?&filter=anomalie.vehicule.am||\$eq||${id_AM}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -139,9 +141,10 @@ class _MesTachesState extends State<MesTaches> {
     var jsonData = json.decode(response.body);
     List<Tache> taches = [];
     for (var u in jsonData) {
+      print(u["idTache"]);
       Tache tache = Tache(
         idTache: u["idTache"],
-        dateIntervention: u["dateIntervention"],
+        dateInterventionTache: u["dateInterventionTache"],
         anomalie: Anomalie(
             dataDeclenchement: u["anomalie"]["dataDeclenchement"],
             dateFin: u["anomalie"]["dateFin"],
@@ -164,7 +167,12 @@ class _MesTachesState extends State<MesTaches> {
               modele: u["anomalie"]["vehicule"]["modele"],
               verrouillee: u["anomalie"]["vehicule"]["verrouillee"],
               enService: u["anomalie"]["vehicule"]["enService"],
-            )),
+            ),
+            causePanne: u["anomalie"]["causePanne"]),
+        dateFinTache: u["dateFinTache"],
+        descriptionTache: u["descriptionTache"],
+        nomTache: u["nomTache"],
+        tache_terminee: u["tache_terminee"],
       );
       /* Anomalie anomalie = Anomalie(
           idAnomalie: u["idAnomalie"],

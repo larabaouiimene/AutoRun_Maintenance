@@ -1,5 +1,5 @@
 import 'package:autorun/Modeles/tache.dart';
-import 'package:autorun/Views/DetailsTache1.dart';
+import 'package:autorun/Views/CartePanne.dart';
 import 'package:autorun/Views/DetailsTaches.dart';
 import 'package:autorun/Views/Welcome.dart';
 import 'package:autorun/assets/Batterie.dart';
@@ -12,6 +12,8 @@ import 'package:battery_indicator/battery_indicator.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:autorun/utils/globals.dart' as globals;
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Panne extends StatefulWidget {
   @override
@@ -23,15 +25,15 @@ class _PanneState extends State<Panne> {
   late GoogleMapController mapController; //contrller for Google map
   final Set<Marker> markers = new Set();
   var locationMessage =
-      "${globals.tache.anomalie?.lalitudePositionVehicule}, ${globals.tache.anomalie?.logitudePositionVehicule}";
-  var lat = globals.tache.anomalie?.lalitudePositionVehicule;
-  var log = globals.tache.anomalie?.lalitudePositionVehicule;
+      "${globals.tache.anomalie.lalitudePositionVehicule}, ${globals.tache.anomalie.logitudePositionVehicule}";
+  var lat = globals.tache.anomalie.lalitudePositionVehicule;
+  var log = globals.tache.anomalie.lalitudePositionVehicule;
   static const LatLng showLocation = LatLng(27.7089427, 85.3086209);
   late GoogleMapController _controller;
 
   @override
   Widget build(BuildContext context) {
-    print(globals.tache.anomalie?.lalitudePositionVehicule);
+    print(globals.tache.anomalie.lalitudePositionVehicule);
 
     return Scaffold(
       body: Container(
@@ -111,7 +113,7 @@ class _PanneState extends State<Panne> {
                                   margin: EdgeInsets.only(left: 30),
                                   alignment: Alignment.bottomCenter,
                                   height: 40,
-                                  width: 180,
+                                  width: 200,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15),
                                       color: Colors.white.withOpacity(0.5)),
@@ -122,10 +124,10 @@ class _PanneState extends State<Panne> {
                                           Icon(Icons.timelapse,
                                               color: Colors.white),
                                           Text(
-                                            " ${globals.tache.anomalie?.dataDeclenchement}",
+                                            " ${globals.tache.anomalie.dataDeclenchement}",
                                             style: TextStyle(
                                                 fontFamily: 'Nunito',
-                                                fontSize: 12,
+                                                fontSize: 10,
                                                 color: Colors.white),
                                           )
                                         ],
@@ -161,7 +163,7 @@ class _PanneState extends State<Panne> {
                                           Row(
                                             children: [
                                               Text(
-                                                  "${globals.tache.anomalie?.vehicule?.marque} ",
+                                                  "${globals.tache.anomalie.vehicule?.marque} ",
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -184,7 +186,7 @@ class _PanneState extends State<Panne> {
                                                 width: 20,
                                               ),
                                               Text(
-                                                  "${globals.tache.anomalie?.niveauChargeVehicule}" +
+                                                  "${globals.tache.anomalie.niveauChargeVehicule}" +
                                                       "%",
                                                   style: TextStyle(
                                                       fontFamily: 'Nunito',
@@ -203,7 +205,7 @@ class _PanneState extends State<Panne> {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  /* Row(
+                                  Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
@@ -217,20 +219,21 @@ class _PanneState extends State<Panne> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Icon(
-                                            PanneIcon.paper_plane,
-                                            color: color,
-                                            size: 10,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text("500 mètres",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: 'Nunito',
-                                                  fontSize: 10,
-                                                  color: Colors.black))
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Carte()));
+                                              },
+                                              child: Text("voir la carte",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontFamily: 'Nunito',
+                                                      fontSize: 10,
+                                                      color: Colors.black)))
                                         ],
                                       )
                                     ],
@@ -257,7 +260,6 @@ class _PanneState extends State<Panne> {
                                             SizedBox(
                                               width: 5,
                                             ),
-                                           
                                             Text(
                                                 "Av.Colonel Mellah Ali,Algiers 16000",
                                                 style: TextStyle(
@@ -293,46 +295,12 @@ class _PanneState extends State<Panne> {
                                           margin: EdgeInsets.all(10),
                                           child: SizedBox(
                                               child: Text(
-                                                  "Av.Colonel Mellah Ali,Algiers 16000 Av.Colonel Mellah Ali,Algiers 16000 Av.Colonel Mellah Ali,Algiers 16000 Av.Colonel Mellah Ali,Algiers 16000",
+                                                  "${globals.tache.anomalie.causePanne}",
                                                   style: TextStyle(
                                                       fontFamily: 'Nunito',
                                                       fontSize: 15,
-                                                      color: Colors.black))))),*/
-                                  Text("Localisation",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Nunito',
-                                          fontSize: 15,
-                                          color: Colors.black)),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Container(
-                                    width: 300,
-                                    height: 300,
-                                    child: GoogleMap(
-                                      //Map widget from google_maps_flutter package
-                                      zoomGesturesEnabled:
-                                          true, //enable Zoom in, out on map
-                                      initialCameraPosition: CameraPosition(
-                                        //innital position in map
-                                        target: showLocation, //initial position
-                                        zoom: 15.0, //initial zoom level
-                                      ),
-                                      markers:
-                                          getmarkers(), //markers to show on map
-                                      mapType: MapType.normal, //map type
-                                      myLocationButtonEnabled: true,
-                                      myLocationEnabled: true,
-                                      onMapCreated: (controller) {
-                                        //method called when map is created
-                                        setState(() {
-                                          mapController = controller;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(height: 20),
+                                                      color: Colors.black))))),
+                                  SizedBox(height: 30),
                                   Container(
                                     alignment: Alignment.bottomCenter,
                                     height: 30,
@@ -404,4 +372,86 @@ class _PanneState extends State<Panne> {
 
     return markers;
   }
+
+  Future<void> UpdateEtat(BuildContext context, encours, terminee) async {
+    print("BONJOUR");
+    var etat = "";
+    var id_anomalie = globals.tache.anomalie.idAnomalie;
+    if (encours) {
+      etat = "EN_COURS";
+      var response = await http.patch(
+          Uri.parse(
+              "https://autorun-crud.herokuapp.com/anomalie/${id_anomalie}"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, Object>{"statutAnomalie": "EN_COURS"}));
+      print(response.statusCode);
+      if (response.statusCode == 201) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Tâche modifiée")));
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("une erreur s'est produit")));
+      }
+    } else if (terminee) {
+      etat = "TERMINEE";
+      UpdateTache(context);
+    }
+  }
+
+  Future<void> UpdateTache(BuildContext context) async {
+    var etat = "";
+
+    var id_anomalie = globals.tache.anomalie.idAnomalie;
+    var id_tache = globals.tache.idTache;
+    etat = "TERMINEE";
+    var response = await http.put(
+        Uri.parse("https://autorun-crud.herokuapp.com/anomalie/${id_anomalie}"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, Object>{
+          "anomalieTraitee": true,
+          "statutAnomalie": "TERMINEE"
+        }));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      response = await http.patch(
+          Uri.parse("https://autorun-crud.herokuapp.com/tache/${id_tache}"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, Object>{
+            "tache_terminee": true,
+          }));
+    }
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Tâche modifiée")));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("une erreur s'est produit")));
+    }
+  }
+
+  Future<void> CommancerTache(BuildContext context) async {
+    var id_anomalie = globals.tache.anomalie.idAnomalie;
+
+    var response = await http.patch(
+        Uri.parse("https://autorun-crud.herokuapp.com/anomalie/${id_anomalie}"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, Object>{"statutAnomalie": "EN_COURS"}));
+    print(response.statusCode);
+    if (response.statusCode == 201) {
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("une erreur s'est produit")));
+    }
+  }
+
+//   Future<void> ValiderTache(BuildContext context)
 }

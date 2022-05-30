@@ -6,6 +6,7 @@ import 'package:autorun/assets/Flutter.dart';
 import 'package:autorun/assets/MenuIcon.dart';
 import 'package:autorun/assets/MyIcons.dart';
 import 'package:autorun/assets/NewIcon.dart';
+import 'package:autorun/assets/Next.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -124,7 +125,7 @@ class Menu extends State<MenuPage> {
                           MaterialPageRoute(
                               builder: (context) => ProfilePage()));
                     },
-                    child: Icon(NewIcon.angle_right))
+                    child: Icon(Next.angle_right))
               ],
             ),
             SizedBox(
@@ -156,7 +157,7 @@ class Menu extends State<MenuPage> {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => MesTaches()));
                     },
-                    child: Icon(NewIcon.angle_right))
+                    child: Icon(Next.angle_right))
               ],
             ),
             SizedBox(
@@ -190,7 +191,7 @@ class Menu extends State<MenuPage> {
                           MaterialPageRoute(
                               builder: (context) => MesVehicules()));
                     },
-                    child: Icon(NewIcon.angle_right))
+                    child: Icon(Next.angle_right))
               ],
             ),
             SizedBox(
@@ -224,7 +225,7 @@ class Menu extends State<MenuPage> {
                           MaterialPageRoute(
                               builder: (context) => SupportPage()));
                     },
-                    child: Icon(NewIcon.angle_right))
+                    child: Icon(Next.angle_right))
               ],
             ),
             SizedBox(
@@ -251,7 +252,7 @@ class Menu extends State<MenuPage> {
                 SizedBox(
                   width: 25,
                 ),
-                TextButton(onPressed: () {}, child: Icon(NewIcon.angle_right))
+                TextButton(onPressed: () {}, child: Icon(Next.angle_right))
               ],
             ),
             SizedBox(
