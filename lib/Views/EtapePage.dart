@@ -54,21 +54,6 @@ class _MesEtapesState extends State<MesEtapes> {
                           )
                         ],
                       ),
-
-                      /* Row(
-                  
-                      children: [
-                        Image.asset("assets/imgs/bonjour.png"),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "\n ABIR BENZAAMIA",
-                          style: TextStyle(fontSize: 25, color: Colors.white),
-                        )
-                      ],
-                    )*/
                     ],
                   ),
                 ),
@@ -98,29 +83,7 @@ class _MesEtapesState extends State<MesEtapes> {
                             children: [],
                           ),
                         ),
-                        Container(height: 500, child: myApiWidgetEtape()
-                            /*ListView(children: <Widget>[
-                              SizedBox(
-                                width: 30,
-                              ),
-                              TacheListWidget(
-                                  vehicule: "Lamborghini Urus",
-                                  temps: "il y a 3 minutes",
-                                  localisation: "Oued Smar.Alger"),
-                              TacheListWidget(
-                                  vehicule: "Lamborghini Urus",
-                                  temps: "il y a 3 minutes",
-                                  localisation: "Oued Smar.Alger"),
-                              TacheListWidget(
-                                  vehicule: "Lamborghini Urus",
-                                  temps: "il y a 3 minutes",
-                                  localisation: "Oued Smar.Alger"),
-                              TacheListWidget(
-                                  vehicule: "Lamborghini Urus",
-                                  temps: "il y a 3 minutes",
-                                  localisation: "Oued Smar.Alger")
-                            ])*/
-                            ),
+                        Container(height: 500, child: myApiWidgetEtape()),
                       ],
                     ),
                   ))
@@ -138,7 +101,6 @@ class _MesEtapesState extends State<MesEtapes> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    // print("https://autorun-crud.herokuapp.com/tache?&filter=anomalie.vehicule.am||\$eq||${id_AM}");
 
     print(response.body);
     var jsonData = json.decode(response.body);
@@ -178,8 +140,7 @@ class _MesEtapesState extends State<MesEtapes> {
                   title: EtapeWidget(
                     cpt: cpt++,
                     dateDebutEtape: snapshot.data[index].dateDebutEtape,
-                    detailsEtape:
-                        "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+                    detailsEtape: snapshot.data[index].detailsEtape,
                   ),
                 );
               },
